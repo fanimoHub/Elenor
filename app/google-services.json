@@ -1,0 +1,67 @@
+{
+  "project_info": {
+    "project_number": "477199617694",
+    "project_id": "elenor-30b07",
+    "storage_bucket": "elenor-30b07.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:477199617694:android:f13af5b55b40c20b2cb58f",
+        "android_client_info": {
+          "package_name": "com.fanimo.ecommerce.elenor"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDW8f5CoufGdtzCzkSCnOp2tkNTmX9PN_U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:477199617694:android:f13af5b55b40c20b2cb58f",
+        "android_client_info": {
+          "package_name": "com.fanimo.ecommerce.elenor.demo.debug"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDW8f5CoufGdtzCzkSCnOp2tkNTmX9PN_U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:477199617694:android:f13af5b55b40c20b2cb58f",
+        "android_client_info": {
+          "package_name": "com.fanimo.ecommerce.elenor.demo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDW8f5CoufGdtzCzkSCnOp2tkNTmX9PN_U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
