@@ -26,7 +26,8 @@ dependencies {
 
     prodImplementation(libs.firebase.cloud.messaging)
 
-    kapt(libs.hilt.ext.compiler)
+    //kapt(libs.hilt.ext.compiler)
+    ksp(libs.hilt.ext.compiler)
 
     testImplementation(projects.core.testing)
 

@@ -13,10 +13,9 @@ fun NavController.navigateToHome(navOptions: NavOptions? = null) {
 }
 
 fun NavGraphBuilder.homeScreen(
-    onTopicClick: (String) -> Unit,
-    onShowSnackbar: suspend (String, String?) -> Boolean,
+    onProductClick: () -> Unit,
 ) {
     composable(route = homeRoute) {
-        HomeRoute(onTopicClick, onShowSnackbar)
+        HomeRoute( onProductClick )
     }
 }
