@@ -34,12 +34,18 @@ import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material.icons.rounded.ShortText
 import androidx.compose.material.icons.rounded.Upcoming
 import androidx.compose.material.icons.rounded.ViewDay
+import androidx.compose.material.icons.rounded.AccountCircle
+import androidx.compose.material.icons.outlined.AccountCircle
+import androidx.compose.material.icons.rounded.Home
+import androidx.compose.material.icons.outlined.Home
 import androidx.compose.ui.graphics.vector.ImageVector
 
 /**
  * Now in Android icons. Material icons are [ImageVector]s, custom icons are drawable resource IDs.
  */
 object EleIcons {
+    val Account = Icons.Rounded.AccountCircle
+    val AccountBorder = Icons.Outlined.AccountCircle
     val Add = Icons.Rounded.Add
     val ArrowBack = Icons.Rounded.ArrowBack
     val Bookmark = Icons.Rounded.Bookmark
@@ -49,6 +55,8 @@ object EleIcons {
     val Check = Icons.Rounded.Check
     val Close = Icons.Rounded.Close
     val Grid3x3 = Icons.Rounded.Grid3x3
+    val Home = Icons.Rounded.Home
+    val HomeBorder = Icons.Outlined.Home
     val MoreVert = Icons.Default.MoreVert
     val Person = Icons.Rounded.Person
     val Search = Icons.Rounded.Search

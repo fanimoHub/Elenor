@@ -10,7 +10,7 @@
     android {
         defaultConfig {
             testInstrumentationRunner =
-                "com.google.samples.apps.fanimo.core.testing.NiaTestRunner"
+                "com.fanimo.core.testing.EleTestRunner"
         }
         namespace = "com.fanimo.ecommerce.core.database"
     }

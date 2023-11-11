@@ -4,7 +4,9 @@
     plugins {
         alias(libs.plugins.fanimo.android.library)
         alias(libs.plugins.fanimo.android.library.jacoco)
-        kotlin("kapt")
+        //kotlin("kapt")
+        alias(libs.plugins.ksp)
+
     }
 
     android {
@@ -18,7 +20,8 @@
         implementation(libs.kotlinx.coroutines.android)
         implementation(libs.kotlinx.datetime)
 
-        kapt(libs.hilt.compiler)
+        //kapt(libs.hilt.compiler)
+        ksp(libs.hilt.compiler)
 
         testImplementation(projects.core.testing)
     }
