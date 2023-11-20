@@ -4,7 +4,6 @@
     plugins {
         alias(libs.plugins.fanimo.android.library)
         alias(libs.plugins.fanimo.android.library.jacoco)
-        //kotlin("kapt")
         alias(libs.plugins.ksp)
 
     }
