@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
 
-    <style name="Theme.Elenor" parent="android:Theme.Material.Light.NoActionBar" />
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+<style name="Theme.Elenor" parent="android:Theme.Material.Light.NoActionBar" />
+
+<style name="Adjusted.Theme.Splash" parent="Theme.SplashScreen">
+    <item name="android:windowLightStatusBar" tools:targetApi="23">true</item>
+    <item name="android:windowLightNavigationBar" tools:targetApi="27">true</item>
+</style>
+
+<style name="Theme.Ele.Splash" parent="Theme.SplashScreen">
+    <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash</item>
+    <item name="postSplashScreenTheme">@style/Theme.Elenor</item>
+</style>
+
 </resources>
