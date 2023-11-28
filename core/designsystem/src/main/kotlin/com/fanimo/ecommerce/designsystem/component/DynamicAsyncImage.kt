@@ -24,7 +24,7 @@ import coil.compose.AsyncImage
 import coil.compose.AsyncImagePainter.State.Error
 import coil.compose.AsyncImagePainter.State.Loading
 import coil.compose.rememberAsyncImagePainter
-import com.fanimo.commerce.elenor.core.designsystem.R
+import com.fanimo.ecommerce.core.designsystem.R
 import com.fanimo.ecommerce.designsystem.theme.LocalTintTheme
 
 /**

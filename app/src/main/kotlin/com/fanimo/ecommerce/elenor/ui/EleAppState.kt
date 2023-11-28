@@ -2,12 +2,12 @@ package com.fanimo.ecommerce.elenor.ui
 
 
 
-import androidx.compose.material3.windowsizeclass.WindowSizeClass
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -25,25 +25,36 @@ import com.fanimo.ecommerce.elenor.navigation.TopLevelDestination
 import com.fanimo.ecommerce.elenor.navigation.TopLevelDestination.ACCOUNT
 import com.fanimo.ecommerce.elenor.navigation.TopLevelDestination.HOME
 import com.fanimo.ecommerce.elenor.navigation.TopLevelDestination.PRODUCT
+import com.fanimo.ecommerce.elenor.feature.search.navigation.navigateToSearch
 import kotlinx.coroutines.CoroutineScope
+import androidx.compose.material3.adaptive.navigation.suite.ExperimentalMaterial3AdaptiveNavigationSuiteApi
+import androidx.compose.material3.adaptive.navigation.suite.NavigationSuiteType
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
+import com.fanimo.ecommerce.core.data.util.NetworkMonitor
+
 
 @Composable
 fun rememberEleAppState(
-    windowSizeClass: WindowSizeClass,
+    windowSize:DpSize,
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
     navController: NavHostController = rememberNavController(),
+    networkMonitor: NetworkMonitor,
 ): EleAppState {
     //NavigationTrackingSideEffect(navController)
     return remember(
         navController,
         coroutineScope,
-        windowSizeClass,
+        windowSize,
+        networkMonitor,
 
     ) {
         EleAppState(
             navController,
             coroutineScope,
-            windowSizeClass,
+            windowSize,
+            networkMonitor,
         )
     }
 }
@@ -52,8 +63,10 @@ fun rememberEleAppState(
 class EleAppState(
     val navController: NavHostController,
     val coroutineScope: CoroutineScope,
-    val windowSizeClass: WindowSizeClass,
-) {
+    private val windowSize: DpSize,
+    networkMonitor: NetworkMonitor,
+
+    ) {
     val currentDestination: NavDestination?
         @Composable get() = navController
             .currentBackStackEntryAsState().value?.destination
@@ -66,11 +79,27 @@ class EleAppState(
             else -> null
         }
 
-    val shouldShowBottomBar: Boolean
-        get() = windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact
+    val isOffline = networkMonitor.isOnline
+        .map(Boolean::not)
+        .stateIn(
+            scope = coroutineScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = false,
+        )
 
-    val shouldShowNavRail: Boolean
-        get() = !shouldShowBottomBar
+
+
+    @OptIn(ExperimentalMaterial3AdaptiveNavigationSuiteApi::class)
+    val navigationSuiteType: NavigationSuiteType
+        @Composable get() {
+            return if (windowSize.width > 1240.dp) {
+                NavigationSuiteType.NavigationDrawer
+            } else if (windowSize.width >= 600.dp) {
+                NavigationSuiteType.NavigationRail
+            } else {
+                NavigationSuiteType.NavigationBar
+            }
+        }
 
 
 
@@ -102,6 +131,10 @@ class EleAppState(
                 PRODUCT -> navController.navigateToProduct(topLevelNavOptions)
             }
         }
+    }
+
+    fun navigateToSearch() {
+        navController.navigateToSearch()
     }
 
 

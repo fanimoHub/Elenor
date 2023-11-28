@@ -15,7 +15,8 @@ for developers.
 
 # Features
 
-**Elenor** 
+**Elenor** will connect to real ecommerce site [Civilfam](https://civilfam.com/) as soon as got ready.
+
 
 ## Screenshots
 

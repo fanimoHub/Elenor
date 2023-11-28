@@ -4,9 +4,8 @@ buildscript {
     repositories {
         google()
         mavenCentral()
-
-
     }
+
     dependencies {
         classpath(libs.google.oss.licenses.plugin) {
             exclude(group = "com.google.protobuf")
@@ -15,9 +14,6 @@ buildscript {
 }
 
 plugins {
-
-
-    id("org.jetbrains.kotlin.android") version "1.8.10" apply false
     alias(libs.plugins.android.library) apply false
     alias(libs.plugins.android.application) apply false
     alias(libs.plugins.kotlin.jvm) apply false
@@ -29,5 +25,6 @@ plugins {
     alias(libs.plugins.ksp) apply false
     alias(libs.plugins.roborazzi) apply false
     alias(libs.plugins.secrets) apply false
+    alias(libs.plugins.org.jetbrains.kotlin.android) apply false
 }
 

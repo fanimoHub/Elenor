@@ -9,7 +9,7 @@ android {
     defaultConfig {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
-    namespace = "com.fanimo.commerce.elenor.core.designsystem"
+    namespace = "com.fanimo.ecommerce.core.designsystem"
 }
 
 dependencies {
