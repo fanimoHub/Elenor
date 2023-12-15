@@ -5,6 +5,10 @@ package com.fanimo.ecommerce.elenor.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
+import com.fanimo.ecommerce.elenor.feature.account.navigation.accountScreen
+import com.fanimo.ecommerce.elenor.feature.cart.navigation.cartScreen
+import com.fanimo.ecommerce.elenor.feature.category.navigation.categoryScreen
+import com.fanimo.ecommerce.elenor.feature.category.navigation.navigateToCategory
 import com.fanimo.ecommerce.elenor.feature.home.navigation.homeRoute
 import com.fanimo.ecommerce.elenor.feature.home.navigation.homeScreen
 import com.fanimo.ecommerce.elenor.feature.home.navigation.navigateToHome
@@ -12,13 +16,7 @@ import com.fanimo.ecommerce.elenor.feature.product.navigation.navigateToProduct
 import com.fanimo.ecommerce.elenor.feature.product.navigation.productScreen
 import com.fanimo.ecommerce.elenor.ui.EleAppState
 
-/**
- * Top-level navigation graph. Navigation is organized as explained at
- * https://d.android.com/jetpack/compose/nav-adaptive
- *
- * The navigation graph defined in this file defines the different top level routes. Navigation
- * within each route is handled using state and Back Handlers.
- */
+
 @Composable
 fun EleNavHost(
     appState: EleAppState,
@@ -34,9 +32,10 @@ fun EleNavHost(
         modifier = modifier,
     ) {
         homeScreen(onProductClick = navController::navigateToProduct)
-        productScreen(
-            onHomeClick = navController::navigateToHome,
-        )
+        categoryScreen(onHomeClick = navController::navigateToHome)
+        cartScreen(onHomeClick = navController::navigateToHome)
+        accountScreen(onHomeClick = navController::navigateToHome)
+        productScreen(onHomeClick = navController::navigateToHome )
 
     }
 }

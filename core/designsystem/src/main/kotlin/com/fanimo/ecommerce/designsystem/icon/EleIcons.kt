@@ -10,6 +10,8 @@ import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Bookmark
 import androidx.compose.material.icons.rounded.BookmarkBorder
 import androidx.compose.material.icons.rounded.Bookmarks
+import androidx.compose.material.icons.rounded.ShoppingCart
+import androidx.compose.material.icons.outlined.ShoppingCart
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Grid3x3
@@ -25,9 +27,7 @@ import androidx.compose.material.icons.rounded.Home
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.ui.graphics.vector.ImageVector
 
-/**
- * Now in Android icons. Material icons are [ImageVector]s, custom icons are drawable resource IDs.
- */
+
 object EleIcons {
     val Account = Icons.Rounded.AccountCircle
     val AccountBorder = Icons.Outlined.AccountCircle
@@ -37,6 +37,8 @@ object EleIcons {
     val BookmarkBorder = Icons.Rounded.BookmarkBorder
     val Bookmarks = Icons.Rounded.Bookmarks
     val BookmarksBorder = Icons.Outlined.Bookmarks
+    val Cart = Icons.Rounded.ShoppingCart
+    val CartBorder = Icons.Outlined.ShoppingCart
     val Check = Icons.Rounded.Check
     val Close = Icons.Rounded.Close
     val Grid3x3 = Icons.Rounded.Grid3x3

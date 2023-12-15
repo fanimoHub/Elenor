@@ -8,8 +8,8 @@ import com.fanimo.ecommerce.elenor.feature.product.ProductRoute
 
 const val productRoute = "product_route"
 
-fun NavController.navigateToProduct(navOptions: NavOptions? = null) {
-    this.navigate(productRoute, navOptions)
+fun NavController.navigateToProduct(productId: String) {
+    this.navigate(productRoute)
 }
 
 fun NavGraphBuilder.productScreen(

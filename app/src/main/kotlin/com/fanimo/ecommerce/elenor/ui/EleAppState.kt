@@ -1,5 +1,5 @@
-package com.fanimo.ecommerce.elenor.ui
 
+package com.fanimo.ecommerce.elenor.ui
 
 
 import androidx.compose.runtime.Composable
@@ -15,16 +15,19 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import androidx.tracing.trace
-import com.fanimo.ecommerce.elenor.feature.account.navigation.accountRoute
 import com.fanimo.ecommerce.elenor.feature.account.navigation.navigateToAccount
-import com.fanimo.ecommerce.elenor.feature.home.navigation.homeRoute
+import com.fanimo.ecommerce.elenor.feature.account.navigation.accountRoute
 import com.fanimo.ecommerce.elenor.feature.home.navigation.navigateToHome
-import com.fanimo.ecommerce.elenor.feature.product.navigation.navigateToProduct
-import com.fanimo.ecommerce.elenor.feature.product.navigation.productRoute
+import com.fanimo.ecommerce.elenor.feature.home.navigation.homeRoute
+import com.fanimo.ecommerce.elenor.feature.category.navigation.navigateToCategory
+import com.fanimo.ecommerce.elenor.feature.category.navigation.categoryRoute
+import com.fanimo.ecommerce.elenor.feature.cart.navigation.navigateToCart
+import com.fanimo.ecommerce.elenor.feature.cart.navigation.cartRoute
 import com.fanimo.ecommerce.elenor.navigation.TopLevelDestination
 import com.fanimo.ecommerce.elenor.navigation.TopLevelDestination.ACCOUNT
 import com.fanimo.ecommerce.elenor.navigation.TopLevelDestination.HOME
-import com.fanimo.ecommerce.elenor.navigation.TopLevelDestination.PRODUCT
+import com.fanimo.ecommerce.elenor.navigation.TopLevelDestination.CATEGORY
+import com.fanimo.ecommerce.elenor.navigation.TopLevelDestination.CART
 import com.fanimo.ecommerce.elenor.feature.search.navigation.navigateToSearch
 import kotlinx.coroutines.CoroutineScope
 import androidx.compose.material3.adaptive.navigation.suite.ExperimentalMaterial3AdaptiveNavigationSuiteApi
@@ -33,6 +36,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import com.fanimo.ecommerce.core.data.util.NetworkMonitor
+import com.fanimo.ecommerce.elenor.feature.category.navigation.navigateToCategory
 
 
 @Composable
@@ -62,12 +66,12 @@ fun rememberEleAppState(
 @Stable
 class EleAppState(
     val navController: NavHostController,
-    val coroutineScope: CoroutineScope,
+    coroutineScope: CoroutineScope,
     private val windowSize: DpSize,
     networkMonitor: NetworkMonitor,
 
     ) {
-    val currentDestination: NavDestination?
+    private val currentDestination: NavDestination?
         @Composable get() = navController
             .currentBackStackEntryAsState().value?.destination
 
@@ -75,7 +79,8 @@ class EleAppState(
         @Composable get() = when (currentDestination?.route) {
             homeRoute -> HOME
             accountRoute -> ACCOUNT
-            productRoute -> PRODUCT
+            categoryRoute -> CATEGORY
+            cartRoute -> CART
             else -> null
         }
 
@@ -102,11 +107,7 @@ class EleAppState(
         }
 
 
-
-
     val topLevelDestinations: List<TopLevelDestination> = TopLevelDestination.values().asList()
-
-
 
 
     fun navigateToTopLevelDestination(topLevelDestination: TopLevelDestination) {
@@ -127,8 +128,10 @@ class EleAppState(
 
             when (topLevelDestination) {
                 HOME -> navController.navigateToHome(topLevelNavOptions)
+                CATEGORY -> navController.navigateToCategory(topLevelNavOptions)
+                CART -> navController.navigateToCart(topLevelNavOptions)
                 ACCOUNT -> navController.navigateToAccount(topLevelNavOptions)
-                PRODUCT -> navController.navigateToProduct(topLevelNavOptions)
+
             }
         }
     }

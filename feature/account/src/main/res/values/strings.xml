@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="account">Account</string>
+    <string name="account_icon_text">Account</string>
+    <string name="account_page_name">Account</string>
 </resources>

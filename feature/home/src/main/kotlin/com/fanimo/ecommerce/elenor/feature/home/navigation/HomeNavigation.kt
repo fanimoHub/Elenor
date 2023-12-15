@@ -6,6 +6,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.fanimo.ecommerce.elenor.feature.home.HomeRoute
 
+const val LINKED_NEWS_RESOURCE_ID = "linkedNewsResourceId"
 const val homeRoute = "home_route"
 
 fun NavController.navigateToHome(navOptions: NavOptions? = null) {
@@ -13,7 +14,7 @@ fun NavController.navigateToHome(navOptions: NavOptions? = null) {
 }
 
 fun NavGraphBuilder.homeScreen(
-    onProductClick: () -> Unit,
+    onProductClick: (productId: String) -> Unit,
 ) {
     composable(route = homeRoute) {
         HomeRoute( onProductClick )

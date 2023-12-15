@@ -33,6 +33,8 @@ internal fun AccountScreen(
             modifier = modifier,
         )
         Button(onClick = onHomeClick) {
+            Text(text = "Home")
+
 
         }
     }

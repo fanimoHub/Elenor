@@ -8,6 +8,10 @@ android {
     namespace = "com.fanimo.ecommerce.elenor.feature.home"
 }
 
+
 dependencies {
     implementation(libs.androidx.compose.material3.windowSizeClass)
+    implementation(libs.kotlinx.datetime)
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.accompanist.permissions)
 }
