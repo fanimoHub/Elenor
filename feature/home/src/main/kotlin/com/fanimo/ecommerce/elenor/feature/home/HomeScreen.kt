@@ -334,6 +334,7 @@ private fun LazyStaggeredGridScope.onboarding(
                 }
             }
         }
+        else -> Unit
     }
 }
 
@@ -511,6 +512,7 @@ private fun feedItemsSize(
     val feedSize = when (feedState) {
         NewsFeedUiState.Loading -> 0
         is NewsFeedUiState.Success -> feedState.feed.size
+        else -> 0
     }
     val onboardingSize = when (onboardingUiState) {
         OnboardingUiState.Loading,
@@ -519,6 +521,7 @@ private fun feedItemsSize(
         -> 0
 
         is OnboardingUiState.Shown -> 1
+        else -> 0
     }
     return feedSize + onboardingSize
 }
