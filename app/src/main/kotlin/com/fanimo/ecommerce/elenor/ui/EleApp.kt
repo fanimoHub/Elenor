@@ -26,9 +26,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.DpSize
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.fanimo.ecommerce.core.data.util.NetworkMonitor
 import com.fanimo.ecommerce.designsystem.component.EleBackground
 import com.fanimo.ecommerce.designsystem.component.EleGradientBackground
 import com.fanimo.ecommerce.designsystem.component.EleTopAppBar
@@ -36,23 +34,15 @@ import com.fanimo.ecommerce.designsystem.icon.EleIcons
 import com.fanimo.ecommerce.designsystem.theme.GradientColors
 import com.fanimo.ecommerce.designsystem.theme.LocalGradientColors
 import com.fanimo.ecommerce.elenor.R
+import com.fanimo.ecommerce.elenor.feature.settings.SettingsDialog
 import com.fanimo.ecommerce.elenor.navigation.EleNavHost
 import com.fanimo.ecommerce.elenor.navigation.TopLevelDestination
-import com.fanimo.ecommerce.elenor.feature.settings.SettingsDialog
 import com.fanimo.ecommerce.elenor.feature.settings.R as settingsR
-
 
 
 @OptIn(ExperimentalMaterial3AdaptiveNavigationSuiteApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun EleApp(windowSize: DpSize,
-           networkMonitor: NetworkMonitor,
-           appState: EleAppState = rememberEleAppState(
-                windowSize = windowSize,
-               networkMonitor = networkMonitor,
-
-            )
-){
+fun EleApp(appState: EleAppState) {
     val shouldShowGradientBackground =
         appState.currentTopLevelDestination == TopLevelDestination.HOME
     var showSettingsDialog by rememberSaveable {

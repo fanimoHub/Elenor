@@ -2,11 +2,14 @@
 package com.fanimo.ecommerce.elenor.ui
 
 
+import androidx.compose.material3.adaptive.navigation.suite.ExperimentalMaterial3AdaptiveNavigationSuiteApi
+import androidx.compose.material3.adaptive.navigation.suite.NavigationSuiteType
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -15,33 +18,30 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import androidx.tracing.trace
-import com.fanimo.ecommerce.elenor.feature.account.navigation.navigateToAccount
+import com.fanimo.ecommerce.core.data.util.NetworkMonitor
 import com.fanimo.ecommerce.elenor.feature.account.navigation.accountRoute
-import com.fanimo.ecommerce.elenor.feature.home.navigation.navigateToHome
-import com.fanimo.ecommerce.elenor.feature.home.navigation.homeRoute
-import com.fanimo.ecommerce.elenor.feature.category.navigation.navigateToCategory
-import com.fanimo.ecommerce.elenor.feature.category.navigation.categoryRoute
-import com.fanimo.ecommerce.elenor.feature.cart.navigation.navigateToCart
+import com.fanimo.ecommerce.elenor.feature.account.navigation.navigateToAccount
 import com.fanimo.ecommerce.elenor.feature.cart.navigation.cartRoute
+import com.fanimo.ecommerce.elenor.feature.cart.navigation.navigateToCart
+import com.fanimo.ecommerce.elenor.feature.category.navigation.categoryRoute
+import com.fanimo.ecommerce.elenor.feature.category.navigation.navigateToCategory
+import com.fanimo.ecommerce.elenor.feature.home.navigation.homeRoute
+import com.fanimo.ecommerce.elenor.feature.home.navigation.navigateToHome
+import com.fanimo.ecommerce.elenor.feature.search.navigation.navigateToSearch
 import com.fanimo.ecommerce.elenor.navigation.TopLevelDestination
 import com.fanimo.ecommerce.elenor.navigation.TopLevelDestination.ACCOUNT
-import com.fanimo.ecommerce.elenor.navigation.TopLevelDestination.HOME
-import com.fanimo.ecommerce.elenor.navigation.TopLevelDestination.CATEGORY
 import com.fanimo.ecommerce.elenor.navigation.TopLevelDestination.CART
-import com.fanimo.ecommerce.elenor.feature.search.navigation.navigateToSearch
+import com.fanimo.ecommerce.elenor.navigation.TopLevelDestination.CATEGORY
+import com.fanimo.ecommerce.elenor.navigation.TopLevelDestination.HOME
 import kotlinx.coroutines.CoroutineScope
-import androidx.compose.material3.adaptive.navigation.suite.ExperimentalMaterial3AdaptiveNavigationSuiteApi
-import androidx.compose.material3.adaptive.navigation.suite.NavigationSuiteType
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import com.fanimo.ecommerce.core.data.util.NetworkMonitor
-import com.fanimo.ecommerce.elenor.feature.category.navigation.navigateToCategory
 
 
 @Composable
 fun rememberEleAppState(
-    windowSize:DpSize,
+    windowSizeClass: WindowSizeClass,
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
     navController: NavHostController = rememberNavController(),
     networkMonitor: NetworkMonitor,
@@ -50,14 +50,14 @@ fun rememberEleAppState(
     return remember(
         navController,
         coroutineScope,
-        windowSize,
+        windowSizeClass,
         networkMonitor,
 
     ) {
         EleAppState(
             navController,
             coroutineScope,
-            windowSize,
+            windowSizeClass,
             networkMonitor,
         )
     }
@@ -67,7 +67,7 @@ fun rememberEleAppState(
 class EleAppState(
     val navController: NavHostController,
     coroutineScope: CoroutineScope,
-    private val windowSize: DpSize,
+    val windowSizeClass: WindowSizeClass,
     networkMonitor: NetworkMonitor,
 
     ) {
@@ -97,9 +97,10 @@ class EleAppState(
     @OptIn(ExperimentalMaterial3AdaptiveNavigationSuiteApi::class)
     val navigationSuiteType: NavigationSuiteType
         @Composable get() {
-            return if (windowSize.width > 1240.dp) {
+            return if (windowSizeClass.widthSizeClass > WindowWidthSizeClass.Expanded
+            ) {
                 NavigationSuiteType.NavigationDrawer
-            } else if (windowSize.width >= 600.dp) {
+            } else if (windowSizeClass.widthSizeClass > WindowWidthSizeClass.Medium) {
                 NavigationSuiteType.NavigationRail
             } else {
                 NavigationSuiteType.NavigationBar
@@ -107,7 +108,7 @@ class EleAppState(
         }
 
 
-    val topLevelDestinations: List<TopLevelDestination> = TopLevelDestination.values().asList()
+    val topLevelDestinations: List<TopLevelDestination> = TopLevelDestination.entries
 
 
     fun navigateToTopLevelDestination(topLevelDestination: TopLevelDestination) {
