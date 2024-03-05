@@ -8,7 +8,6 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -24,7 +23,11 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.collect
 import com.fanimo.ecommerce.elenor.MainActivityUiState.Success
-import androidx.compose.material3.adaptive.collectWindowSizeAsState
+//import androidx.compose.material3.adaptive.collectWindowSizeAsState
+//import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
+
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
@@ -34,9 +37,11 @@ import androidx.compose.ui.unit.IntSize
 import com.fanimo.ecommerce.core.data.util.NetworkMonitor
 import com.fanimo.ecommerce.core.model.data.DarkThemeConfig
 import com.fanimo.ecommerce.core.model.data.ThemeBrand
+import com.fanimo.ecommerce.elenor.ui.rememberEleAppState
 import javax.inject.Inject
 
 
+@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
@@ -45,7 +50,7 @@ class MainActivity : ComponentActivity() {
 
     private val viewModel: MainActivityViewModel by viewModels()
 
-    @OptIn(ExperimentalMaterial3AdaptiveApi::class)
+//    @OptIn(ExperimentalMaterial3AdaptiveApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
 
@@ -89,17 +94,22 @@ class MainActivity : ComponentActivity() {
                 onDispose {}
             }
 
+            val appState = rememberEleAppState(
+                windowSizeClass = calculateWindowSizeClass(this),
+                networkMonitor = networkMonitor,
+                  )
+
+//            val currentTimeZone by appState.currentTimeZone.collectAsStateWithLifecycle()
+
+
             CompositionLocalProvider {
                 EleTheme(
                     darkTheme = darkTheme,
                     androidTheme = shouldUseAndroidTheme(uiState),
                     disableDynamicTheming = shouldDisableDynamicTheming(uiState),
                 ) {
-                    val windowSize by collectWindowSizeAsState()
-                    EleApp(
-                        windowSize = windowSize.toDpSize(),
-                        networkMonitor = networkMonitor,
-                    )
+//                    val windowSize by collectWindowSizeAsState()
+                    EleApp(appState)
 
 
                 }
