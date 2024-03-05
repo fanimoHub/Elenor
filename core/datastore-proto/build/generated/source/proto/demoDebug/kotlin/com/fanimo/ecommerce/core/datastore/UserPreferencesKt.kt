@@ -809,6 +809,6 @@ public object UserPreferencesKt {
     }
   }
 }
-public inline fun com.fanimo.ecommerce.core.datastore.UserPreferences.copy(block: com.fanimo.ecommerce.core.datastore.UserPreferencesKt.Dsl.() -> kotlin.Unit): com.fanimo.ecommerce.core.datastore.UserPreferences =
-  com.fanimo.ecommerce.core.datastore.UserPreferencesKt.Dsl._create(this.toBuilder()).apply { block() }._build()
+public inline fun com.fanimo.ecommerce.core.datastore.UserPreferences.copy(block: `com.fanimo.ecommerce.core.datastore`.UserPreferencesKt.Dsl.() -> kotlin.Unit): com.fanimo.ecommerce.core.datastore.UserPreferences =
+  `com.fanimo.ecommerce.core.datastore`.UserPreferencesKt.Dsl._create(this.toBuilder()).apply { block() }._build()
 

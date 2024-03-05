@@ -31,9 +31,6 @@ import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.DpSize
-import androidx.compose.ui.unit.IntSize
 import com.fanimo.ecommerce.core.data.util.NetworkMonitor
 import com.fanimo.ecommerce.core.model.data.DarkThemeConfig
 import com.fanimo.ecommerce.core.model.data.ThemeBrand
@@ -160,10 +157,10 @@ private fun shouldUseDarkTheme(
 }
 
 
-@Composable
-private fun IntSize.toDpSize(): DpSize = with(LocalDensity.current) {
-    DpSize(width.toDp(), height.toDp())
-}
+//@Composable
+//private fun IntSize.toDpSize(): DpSize = with(LocalDensity.current) {
+//    DpSize(width.toDp(), height.toDp())
+//}
 
 
 private val lightScrim = Color.argb(0xe6, 0xFF, 0xFF, 0xFF)
