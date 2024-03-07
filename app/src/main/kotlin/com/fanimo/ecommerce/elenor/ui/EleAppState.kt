@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -17,6 +18,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import androidx.tracing.trace
+import com.fanimo.ecommerce.core.data.repository.UserNewsResourceRepository
+
 import com.fanimo.ecommerce.core.data.util.NetworkMonitor
 import com.fanimo.ecommerce.core.data.util.TimeZoneMonitor
 import com.fanimo.ecommerce.elenor.feature.account.navigation.accountRoute
@@ -35,6 +38,8 @@ import com.fanimo.ecommerce.elenor.navigation.TopLevelDestination.CATEGORY
 import com.fanimo.ecommerce.elenor.navigation.TopLevelDestination.HOME
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.datetime.TimeZone
@@ -44,10 +49,11 @@ import kotlinx.datetime.TimeZone
 @Composable
 fun rememberEleAppState(
     windowSizeClass: WindowSizeClass,
-    coroutineScope: CoroutineScope = rememberCoroutineScope(),
-    timeZoneMonitor: TimeZoneMonitor,
-    navController: NavHostController = rememberNavController(),
     networkMonitor: NetworkMonitor,
+    userNewsResourceRepository: UserNewsResourceRepository,
+    timeZoneMonitor: TimeZoneMonitor,
+    coroutineScope: CoroutineScope = rememberCoroutineScope(),
+    navController: NavHostController = rememberNavController(),
 ): EleAppState {
     //NavigationTrackingSideEffect(navController)
     return remember(
@@ -55,14 +61,16 @@ fun rememberEleAppState(
         coroutineScope,
         windowSizeClass,
         networkMonitor,
+        userNewsResourceRepository,
         timeZoneMonitor,
 
         ) {
         EleAppState(
-            navController,
-            coroutineScope,
-            windowSizeClass,
-            networkMonitor,
+            navController = navController,
+            coroutineScope = coroutineScope,
+            windowSizeClass = windowSizeClass,
+            networkMonitor = networkMonitor,
+            userNewsResourceRepository = userNewsResourceRepository,
             timeZoneMonitor = timeZoneMonitor,
         )
     }
@@ -74,10 +82,11 @@ class EleAppState(
     coroutineScope: CoroutineScope,
     val windowSizeClass: WindowSizeClass,
     networkMonitor: NetworkMonitor,
+    userNewsResourceRepository: UserNewsResourceRepository,
     timeZoneMonitor: TimeZoneMonitor,
 
     ) {
-    private val currentDestination: NavDestination?
+    val currentDestination: NavDestination?
         @Composable get() = navController
             .currentBackStackEntryAsState().value?.destination
 
@@ -90,6 +99,12 @@ class EleAppState(
             else -> null
         }
 
+    val shouldShowBottomBar: Boolean
+        get() = windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact
+
+    val shouldShowNavRail: Boolean
+        get() = !shouldShowBottomBar
+
     val isOffline = networkMonitor.isOnline
         .map(Boolean::not)
         .stateIn(
@@ -97,6 +112,30 @@ class EleAppState(
             started = SharingStarted.WhileSubscribed(5_000),
             initialValue = false,
         )
+
+    /**
+     * Map of top level destinations to be used in the TopBar, BottomBar and NavRail. The key is the
+     * route.
+     */
+    val topLevelDestinations: List<TopLevelDestination> = TopLevelDestination.entries
+
+    /**
+     * The top level destinations that have unread news resources.
+     */
+    val topLevelDestinationsWithUnreadResources: StateFlow<Set<TopLevelDestination>> =
+        userNewsResourceRepository.observeAllForFollowedTopics()
+            .combine(userNewsResourceRepository.observeAllBookmarked()) { forYouNewsResources, bookmarkedNewsResources ->
+                setOfNotNull(
+                    ACCOUNT.takeIf { forYouNewsResources.any { !it.hasBeenViewed } },
+                    CART.takeIf { bookmarkedNewsResources.any { !it.hasBeenViewed } },
+                )
+            }
+            .stateIn(
+                coroutineScope,
+                SharingStarted.WhileSubscribed(5_000),
+                initialValue = emptySet(),
+            )
+
     val currentTimeZone = timeZoneMonitor.currentTimeZone
         .stateIn(
             coroutineScope,
@@ -105,21 +144,20 @@ class EleAppState(
         )
 
 
-    @OptIn(ExperimentalMaterial3AdaptiveNavigationSuiteApi::class)
-    val navigationSuiteType: NavigationSuiteType
-        @Composable get() {
-            return if (windowSizeClass.widthSizeClass > WindowWidthSizeClass.Expanded
-            ) {
-                NavigationSuiteType.NavigationDrawer
-            } else if (windowSizeClass.widthSizeClass > WindowWidthSizeClass.Medium) {
-                NavigationSuiteType.NavigationRail
-            } else {
-                NavigationSuiteType.NavigationBar
-            }
-        }
+//    @OptIn(ExperimentalMaterial3AdaptiveNavigationSuiteApi::class)
+//    val navigationSuiteType: NavigationSuiteType
+//        @Composable get() {
+//            return if (windowSizeClass.widthSizeClass > WindowWidthSizeClass.Expanded
+//            ) {
+//                NavigationSuiteType.NavigationDrawer
+//            } else if (windowSizeClass.widthSizeClass > WindowWidthSizeClass.Medium) {
+//                NavigationSuiteType.NavigationRail
+//            } else {
+//                NavigationSuiteType.NavigationBar
+//            }
+//        }
 
 
-    val topLevelDestinations: List<TopLevelDestination> = TopLevelDestination.entries
 
 
     fun navigateToTopLevelDestination(topLevelDestination: TopLevelDestination) {
@@ -148,10 +186,10 @@ class EleAppState(
         }
     }
 
-    fun navigateToSearch() {
-        navController.navigateToSearch()
-    }
-
+    fun navigateToSearch() = navController.navigateToSearch()
 
 }
 
+/**
+ * Stores information about navigation events to be used with JankStats
+ */

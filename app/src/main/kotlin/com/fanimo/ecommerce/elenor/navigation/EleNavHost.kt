@@ -20,6 +20,7 @@ import com.fanimo.ecommerce.elenor.ui.EleAppState
 @Composable
 fun EleNavHost(
     appState: EleAppState,
+    onShowSnackbar: suspend (String, String?) -> Boolean,
     modifier: Modifier = Modifier,
     startDestination: String = homeRoute,
 ) {
@@ -31,7 +32,9 @@ fun EleNavHost(
         startDestination = startDestination,
         modifier = modifier,
     ) {
-        homeScreen(onProductClick = navController::navigateToProduct)
+        homeScreen(onProductClick = navController::navigateToProduct,
+            onShowSnackbar = onShowSnackbar,
+            )
         categoryScreen(onHomeClick = navController::navigateToHome)
         cartScreen(onHomeClick = navController::navigateToHome)
         accountScreen(onHomeClick = navController::navigateToHome)
