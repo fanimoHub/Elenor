@@ -6,6 +6,7 @@ import com.fanimo.convention.configureGradleManagedDevices
 import com.fanimo.convention.configureKotlinAndroid
 import com.fanimo.convention.configurePrintApksTask
 import com.fanimo.convention.disableUnnecessaryAndroidTests
+import com.fanimo.convention.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
@@ -33,9 +34,8 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
             }
             dependencies {
                 add("testImplementation", kotlin("test"))
-                //add("testImplementation", project(":core:testing"))
-                add("androidTestImplementation", kotlin("test"))
-                //add("androidTestImplementation", project(":core:testing"))
+
+                add("implementation", libs.findLibrary("androidx.tracing.ktx").get())
             }
         }
     }
