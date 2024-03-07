@@ -38,7 +38,7 @@ import kotlinx.coroutines.withContext
 class SyncWorker @AssistedInject constructor(
     @Assisted private val appContext: Context,
     @Assisted workerParams: WorkerParameters,
-    private val niaPreferences: ElePreferencesDataSource,
+    private val elePreferences: ElePreferencesDataSource,
     private val topicRepository: TopicsRepository,
     private val newsRepository: NewsRepository,
     private val searchContentsRepository: SearchContentsRepository,
@@ -74,11 +74,11 @@ class SyncWorker @AssistedInject constructor(
     }
 
     override suspend fun getChangeListVersions(): ChangeListVersions =
-        niaPreferences.getChangeListVersions()
+        elePreferences.getChangeListVersions()
 
     override suspend fun updateChangeListVersions(
         update: ChangeListVersions.() -> ChangeListVersions,
-    ) = niaPreferences.updateChangeListVersion(update)
+    ) = elePreferences.updateChangeListVersion(update)
 
     companion object {
         /**

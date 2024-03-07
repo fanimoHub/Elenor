@@ -23,9 +23,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.collect
 import com.fanimo.ecommerce.elenor.MainActivityUiState.Success
-//import androidx.compose.material3.adaptive.collectWindowSizeAsState
-//import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
-
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
@@ -34,14 +31,12 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.metrics.performance.JankStats
 import com.fanimo.ecommerce.core.analytics.AnalyticsHelper
 import com.fanimo.ecommerce.core.analytics.LocalAnalyticsHelper
-
+import com.fanimo.ecommerce.core.data.repository.UserNewsResourceRepository
 import com.fanimo.ecommerce.core.data.util.NetworkMonitor
 import com.fanimo.ecommerce.core.model.data.DarkThemeConfig
 import com.fanimo.ecommerce.core.model.data.ThemeBrand
 import com.fanimo.ecommerce.core.ui.LocalTimeZone
 import com.fanimo.ecommerce.core.data.util.TimeZoneMonitor
-
-
 import com.fanimo.ecommerce.elenor.ui.rememberEleAppState
 import javax.inject.Inject
 
@@ -56,7 +51,6 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var lazyStats: dagger.Lazy<JankStats>
 
-
     @Inject
     lateinit var networkMonitor: NetworkMonitor
 
@@ -66,10 +60,13 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var analyticsHelper: AnalyticsHelper
 
+    @Inject
+    lateinit var userNewsResourceRepository: UserNewsResourceRepository
+
 
     private val viewModel: MainActivityViewModel by viewModels()
 
-//    @OptIn(ExperimentalMaterial3AdaptiveApi::class)
+    //    @OptIn(ExperimentalMaterial3AdaptiveApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
 
@@ -116,8 +113,9 @@ class MainActivity : ComponentActivity() {
             val appState = rememberEleAppState(
                 windowSizeClass = calculateWindowSizeClass(this),
                 networkMonitor = networkMonitor,
+                userNewsResourceRepository = userNewsResourceRepository,
                 timeZoneMonitor = timeZoneMonitor,
-                  )
+            )
 
             val currentTimeZone by appState.currentTimeZone.collectAsStateWithLifecycle()
 

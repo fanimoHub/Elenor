@@ -129,6 +129,7 @@ internal fun HomeScreen(
 @Composable
 internal fun HomeRoute(
     onTopicClick: (String) -> Unit,
+    onShowSnackbar: suspend (String, String?) -> Boolean,
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
@@ -141,6 +142,7 @@ internal fun HomeRoute(
         isSyncing = isSyncing,
         onboardingUiState = onboardingUiState,
         feedState = feedState,
+        onShowSnackbar = onShowSnackbar,
         deepLinkedUserNewsResource = deepLinkedUserNewsResource,
         onTopicCheckedChanged = viewModel::updateTopicSelection,
         onDeepLinkOpened = viewModel::onDeepLinkOpened,
@@ -157,6 +159,7 @@ internal fun HomeScreen(
     isSyncing: Boolean,
     onboardingUiState: OnboardingUiState,
     feedState: NewsFeedUiState,
+    onShowSnackbar: suspend (String, String?) -> Boolean,
     deepLinkedUserNewsResource: UserNewsResource?,
     onTopicCheckedChanged: (String, Boolean) -> Unit,
     onTopicClick: (String) -> Unit,
@@ -526,130 +529,135 @@ private fun feedItemsSize(
     return feedSize + onboardingSize
 }
 
-@DevicePreviews
-@Composable
-fun HomeScreenPopulatedFeed(
-    @PreviewParameter(UserNewsResourcePreviewParameterProvider::class)
-    userNewsResources: List<UserNewsResource>,
-) {
-    BoxWithConstraints {
-        EleTheme {
-            HomeScreen(
-                isSyncing = false,
-                onboardingUiState = OnboardingUiState.NotShown,
-                feedState = NewsFeedUiState.Success(
-                    feed = userNewsResources,
-                ),
-                deepLinkedUserNewsResource = null,
-                onTopicCheckedChanged = { _, _ -> },
-                saveFollowedTopics = {},
-                onNewsResourcesCheckedChanged = { _, _ -> },
-                onNewsResourceViewed = {},
-                onTopicClick = {},
-                onDeepLinkOpened = {},
-            )
-        }
-    }
-}
-
-@DevicePreviews
-@Composable
-fun HomeScreenOfflinePopulatedFeed(
-    @PreviewParameter(UserNewsResourcePreviewParameterProvider::class)
-    userNewsResources: List<UserNewsResource>,
-) {
-    BoxWithConstraints {
-        EleTheme {
-            HomeScreen(
-                isSyncing = false,
-                onboardingUiState = OnboardingUiState.NotShown,
-                feedState = NewsFeedUiState.Success(
-                    feed = userNewsResources,
-                ),
-                deepLinkedUserNewsResource = null,
-                onTopicCheckedChanged = { _, _ -> },
-                saveFollowedTopics = {},
-                onNewsResourcesCheckedChanged = { _, _ -> },
-                onNewsResourceViewed = {},
-                onTopicClick = {},
-                onDeepLinkOpened = {},
-            )
-        }
-    }
-}
-
-@DevicePreviews
-@Composable
-fun HomeScreenTopicSelection(
-    @PreviewParameter(UserNewsResourcePreviewParameterProvider::class)
-    userNewsResources: List<UserNewsResource>,
-) {
-    BoxWithConstraints {
-        EleTheme {
-            HomeScreen(
-                isSyncing = false,
-                onboardingUiState = OnboardingUiState.Shown(
-                    topics = userNewsResources.flatMap { news -> news.followableTopics }
-                        .distinctBy { it.topic.id },
-                ),
-                feedState = NewsFeedUiState.Success(
-                    feed = userNewsResources,
-                ),
-                deepLinkedUserNewsResource = null,
-                onTopicCheckedChanged = { _, _ -> },
-                saveFollowedTopics = {},
-                onNewsResourcesCheckedChanged = { _, _ -> },
-                onNewsResourceViewed = {},
-                onTopicClick = {},
-                onDeepLinkOpened = {},
-            )
-        }
-    }
-}
-
-@DevicePreviews
-@Composable
-fun HomeScreenLoading() {
-    BoxWithConstraints {
-        EleTheme {
-            HomeScreen(
-                isSyncing = false,
-                onboardingUiState = OnboardingUiState.Loading,
-                feedState = NewsFeedUiState.Loading,
-                deepLinkedUserNewsResource = null,
-                onTopicCheckedChanged = { _, _ -> },
-                saveFollowedTopics = {},
-                onNewsResourcesCheckedChanged = { _, _ -> },
-                onNewsResourceViewed = {},
-                onTopicClick = {},
-                onDeepLinkOpened = {},
-            )
-        }
-    }
-}
-
-@DevicePreviews
-@Composable
-fun HomeScreenPopulatedAndLoading(
-    @PreviewParameter(UserNewsResourcePreviewParameterProvider::class)
-    userNewsResources: List<UserNewsResource>,
-) {
-    BoxWithConstraints {
-        EleTheme {
-            HomeScreen(
-                isSyncing = true,
-                onboardingUiState = OnboardingUiState.Loading,
-                feedState = NewsFeedUiState.Success(
-                    feed = userNewsResources,
-                ),
-                deepLinkedUserNewsResource = null,
-                onTopicCheckedChanged = { _, _ -> },
-                saveFollowedTopics = {},
-                onNewsResourcesCheckedChanged = { _, _ -> },
-                onNewsResourceViewed = {},
-                onTopicClick = {},
-                onDeepLinkOpened = {},
-            )
-        }
-    }
-}
+//@DevicePreviews
+//@Composable
+//fun HomeScreenPopulatedFeed(
+//    @PreviewParameter(UserNewsResourcePreviewParameterProvider::class)
+//    userNewsResources: List<UserNewsResource>,
+//) {
+//    BoxWithConstraints {
+//        EleTheme {
+//            HomeScreen(
+//                isSyncing = false,
+//                onboardingUiState = OnboardingUiState.NotShown,
+//                feedState = NewsFeedUiState.Success(
+//                    feed = userNewsResources,
+//                ),
+//                onShowSnackbar = { _, _ -> },
+//            deepLinkedUserNewsResource = null,
+//                onTopicCheckedChanged = { _, _ -> },
+//                saveFollowedTopics = {},
+//                onNewsResourcesCheckedChanged = { _, _ -> },
+//                onNewsResourceViewed = {},
+//                onTopicClick = {},
+//                onDeepLinkOpened = {},
+//            )
+//        }
+//    }
+//}
+//
+//@DevicePreviews
+//@Composable
+//fun HomeScreenOfflinePopulatedFeed(
+//    @PreviewParameter(UserNewsResourcePreviewParameterProvider::class)
+//    userNewsResources: List<UserNewsResource>,
+//) {
+//    BoxWithConstraints {
+//        EleTheme {
+//            HomeScreen(
+//                isSyncing = false,
+//                onboardingUiState = OnboardingUiState.NotShown,
+//                feedState = NewsFeedUiState.Success(
+//                    feed = userNewsResources,
+//                ),
+//                onShowSnackbar = { _, _ -> },
+//                deepLinkedUserNewsResource = null,
+//                onTopicCheckedChanged = { _, _ -> },
+//                saveFollowedTopics = {},
+//                onNewsResourcesCheckedChanged = { _, _ -> },
+//                onNewsResourceViewed = {},
+//                onTopicClick = {},
+//                onDeepLinkOpened = {},
+//            )
+//        }
+//    }
+//}
+//
+//@DevicePreviews
+//@Composable
+//fun HomeScreenTopicSelection(
+//    @PreviewParameter(UserNewsResourcePreviewParameterProvider::class)
+//    userNewsResources: List<UserNewsResource>,
+//) {
+//    BoxWithConstraints {
+//        EleTheme {
+//            HomeScreen(
+//                isSyncing = false,
+//                onboardingUiState = OnboardingUiState.Shown(
+//                    topics = userNewsResources.flatMap { news -> news.followableTopics }
+//                        .distinctBy { it.topic.id },
+//                ),
+//                feedState = NewsFeedUiState.Success(
+//                    feed = userNewsResources,
+//                ),
+//                onShowSnackbar = { _, _ -> },
+//                deepLinkedUserNewsResource = null,
+//                onTopicCheckedChanged = { _, _ -> },
+//                saveFollowedTopics = {},
+//                onNewsResourcesCheckedChanged = { _, _ -> },
+//                onNewsResourceViewed = {},
+//                onTopicClick = {},
+//                onDeepLinkOpened = {},
+//            )
+//        }
+//    }
+//}
+//
+//@DevicePreviews
+//@Composable
+//fun HomeScreenLoading() {
+//    BoxWithConstraints {
+//        EleTheme {
+//            HomeScreen(
+//                isSyncing = false,
+//                onboardingUiState = OnboardingUiState.Loading,
+//                feedState = NewsFeedUiState.Loading,
+//                onShowSnackbar = { _, _ -> },
+//                deepLinkedUserNewsResource = null,
+//                onTopicCheckedChanged = { _, _ -> },
+//                saveFollowedTopics = {},
+//                onNewsResourcesCheckedChanged = { _, _ -> },
+//                onNewsResourceViewed = {},
+//                onTopicClick = {},
+//                onDeepLinkOpened = {},
+//            )
+//        }
+//    }
+//}
+//
+//@DevicePreviews
+//@Composable
+//fun HomeScreenPopulatedAndLoading(
+//    @PreviewParameter(UserNewsResourcePreviewParameterProvider::class)
+//    userNewsResources: List<UserNewsResource>,
+//) {
+//    BoxWithConstraints {
+//        EleTheme {
+//            HomeScreen(
+//                isSyncing = true,
+//                onboardingUiState = OnboardingUiState.Loading,
+//                feedState = NewsFeedUiState.Success(
+//                    feed = userNewsResources,
+//                ),
+//                onShowSnackbar = { _, _ -> },
+//                deepLinkedUserNewsResource = null,
+//                onTopicCheckedChanged = { _, _ -> },
+//                saveFollowedTopics = {},
+//                onNewsResourcesCheckedChanged = { _, _ -> },
+//                onNewsResourceViewed = {},
+//                onTopicClick = {},
+//                onDeepLinkOpened = {},
+//            )
+//        }
+//    }
+//}
