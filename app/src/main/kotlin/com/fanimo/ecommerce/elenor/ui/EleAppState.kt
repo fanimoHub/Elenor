@@ -10,7 +10,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -19,6 +18,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import androidx.tracing.trace
 import com.fanimo.ecommerce.core.data.util.NetworkMonitor
+import com.fanimo.ecommerce.core.data.util.TimeZoneMonitor
 import com.fanimo.ecommerce.elenor.feature.account.navigation.accountRoute
 import com.fanimo.ecommerce.elenor.feature.account.navigation.navigateToAccount
 import com.fanimo.ecommerce.elenor.feature.cart.navigation.cartRoute
@@ -37,12 +37,15 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.datetime.TimeZone
+
 
 
 @Composable
 fun rememberEleAppState(
     windowSizeClass: WindowSizeClass,
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
+    timeZoneMonitor: TimeZoneMonitor,
     navController: NavHostController = rememberNavController(),
     networkMonitor: NetworkMonitor,
 ): EleAppState {
@@ -52,13 +55,15 @@ fun rememberEleAppState(
         coroutineScope,
         windowSizeClass,
         networkMonitor,
+        timeZoneMonitor,
 
-    ) {
+        ) {
         EleAppState(
             navController,
             coroutineScope,
             windowSizeClass,
             networkMonitor,
+            timeZoneMonitor = timeZoneMonitor,
         )
     }
 }
@@ -69,6 +74,7 @@ class EleAppState(
     coroutineScope: CoroutineScope,
     val windowSizeClass: WindowSizeClass,
     networkMonitor: NetworkMonitor,
+    timeZoneMonitor: TimeZoneMonitor,
 
     ) {
     private val currentDestination: NavDestination?
@@ -91,7 +97,12 @@ class EleAppState(
             started = SharingStarted.WhileSubscribed(5_000),
             initialValue = false,
         )
-
+    val currentTimeZone = timeZoneMonitor.currentTimeZone
+        .stateIn(
+            coroutineScope,
+            SharingStarted.WhileSubscribed(5_000),
+            TimeZone.currentSystemDefault(),
+        )
 
 
     @OptIn(ExperimentalMaterial3AdaptiveNavigationSuiteApi::class)

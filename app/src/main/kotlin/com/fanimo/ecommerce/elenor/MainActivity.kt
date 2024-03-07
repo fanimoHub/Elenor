@@ -1,6 +1,5 @@
 package com.fanimo.ecommerce.elenor
 
-import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
@@ -17,6 +16,7 @@ import com.fanimo.ecommerce.elenor.MainActivityUiState.Loading
 import dagger.hilt.android.AndroidEntryPoint
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.launch
@@ -31,12 +31,17 @@ import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.DpSize
-import androidx.compose.ui.unit.IntSize
+import androidx.metrics.performance.JankStats
+import com.fanimo.ecommerce.core.analytics.AnalyticsHelper
+import com.fanimo.ecommerce.core.analytics.LocalAnalyticsHelper
+
 import com.fanimo.ecommerce.core.data.util.NetworkMonitor
 import com.fanimo.ecommerce.core.model.data.DarkThemeConfig
 import com.fanimo.ecommerce.core.model.data.ThemeBrand
+import com.fanimo.ecommerce.core.ui.LocalTimeZone
+import com.fanimo.ecommerce.core.data.util.TimeZoneMonitor
+
+
 import com.fanimo.ecommerce.elenor.ui.rememberEleAppState
 import javax.inject.Inject
 
@@ -45,8 +50,22 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
+    /**
+     * Lazily inject [JankStats], which is used to track jank throughout the app.
+     */
+    @Inject
+    lateinit var lazyStats: dagger.Lazy<JankStats>
+
+
     @Inject
     lateinit var networkMonitor: NetworkMonitor
+
+    @Inject
+    lateinit var timeZoneMonitor: TimeZoneMonitor
+
+    @Inject
+    lateinit var analyticsHelper: AnalyticsHelper
+
 
     private val viewModel: MainActivityViewModel by viewModels()
 
@@ -83,8 +102,8 @@ class MainActivity : ComponentActivity() {
             DisposableEffect(darkTheme) {
                 enableEdgeToEdge(
                     statusBarStyle = SystemBarStyle.auto(
-                        Color.TRANSPARENT,
-                        Color.TRANSPARENT,
+                        android.graphics.Color.TRANSPARENT,
+                        android.graphics.Color.TRANSPARENT,
                     ) { darkTheme },
                     navigationBarStyle = SystemBarStyle.auto(
                         lightScrim,
@@ -97,18 +116,21 @@ class MainActivity : ComponentActivity() {
             val appState = rememberEleAppState(
                 windowSizeClass = calculateWindowSizeClass(this),
                 networkMonitor = networkMonitor,
+                timeZoneMonitor = timeZoneMonitor,
                   )
 
-//            val currentTimeZone by appState.currentTimeZone.collectAsStateWithLifecycle()
+            val currentTimeZone by appState.currentTimeZone.collectAsStateWithLifecycle()
 
 
-            CompositionLocalProvider {
+            CompositionLocalProvider(
+                LocalAnalyticsHelper provides analyticsHelper,
+                LocalTimeZone provides currentTimeZone,
+            ) {
                 EleTheme(
                     darkTheme = darkTheme,
                     androidTheme = shouldUseAndroidTheme(uiState),
                     disableDynamicTheming = shouldDisableDynamicTheming(uiState),
                 ) {
-//                    val windowSize by collectWindowSizeAsState()
                     EleApp(appState)
 
 
@@ -116,7 +138,19 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        lazyStats.get().isTrackingEnabled = true
+    }
+
+    override fun onPause() {
+        super.onPause()
+        lazyStats.get().isTrackingEnabled = false
+    }
+
 }
+
 
 /**
  * Returns `true` if the Android theme should be used, as a function of the [uiState].
@@ -131,6 +165,7 @@ private fun shouldUseAndroidTheme(
         ThemeBrand.ANDROID -> true
     }
 }
+
 
 /**
  * Returns `true` if the dynamic color is disabled, as a function of the [uiState].
@@ -160,14 +195,14 @@ private fun shouldUseDarkTheme(
 }
 
 
-@Composable
-private fun IntSize.toDpSize(): DpSize = with(LocalDensity.current) {
-    DpSize(width.toDp(), height.toDp())
-}
+//@Composable
+//private fun IntSize.toDpSize(): DpSize = with(LocalDensity.current) {
+//    DpSize(width.toDp(), height.toDp())
+//}
 
 
-private val lightScrim = Color.argb(0xe6, 0xFF, 0xFF, 0xFF)
+private val lightScrim = android.graphics.Color.argb(0xe6, 0xFF, 0xFF, 0xFF)
 
-private val darkScrim = Color.argb(0x80, 0x1b, 0x1b, 0x1b)
+private val darkScrim = android.graphics.Color.argb(0x80, 0x1b, 0x1b, 0x1b)
 
 
