@@ -1,0 +1,419 @@
+type Query {
+  allProducts: [ProductType]
+  product: ProductType
+  users: [UserType]
+  viewer: UserType
+}
+
+type ProductType {
+  id: ID!
+  privateMetadata: JSONString
+  metadata: JSONString
+  externalReference: String
+  seoTitle: String
+  seoDescription: String
+  name: String!
+  slug: String!
+  description: JSONString
+  descriptionPlaintext: String!
+  searchDocument: String!
+  searchIndexDirty: Boolean!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  weight: Float
+  rating: Float
+}
+
+"""
+Allows use of a JSON String for input / output from the GraphQL schema.
+
+Use of this type is *not recommended* as you lose the benefits of having a defined, static
+schema (one of the key benefits of GraphQL).
+"""
+scalar JSONString
+
+"""
+The `DateTime` scalar type represents a DateTime
+value as specified by
+[iso8601](https://en.wikipedia.org/wiki/ISO_8601).
+"""
+scalar DateTime
+
+type UserType {
+  id: ID!
+  password: String!
+  lastLogin: DateTime
+
+  """
+  Designates that this user has all permissions without explicitly assigning them.
+  """
+  isSuperuser: Boolean!
+
+  """Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only."""
+  username: String!
+  firstName: String!
+  lastName: String!
+  email: String!
+
+  """Designates whether the user can log into this admin site."""
+  isStaff: Boolean!
+
+  """
+  Designates whether this user should be treated as active. Unselect this instead of deleting accounts.
+  """
+  isActive: Boolean!
+  phone: String!
+  isConfirmed: Boolean!
+  lastConfirmEmailRequest: DateTime
+  note: String
+  dateJoined: DateTime!
+  updatedAt: DateTime!
+  lastPasswordResetRequest: DateTime
+  avatar: String
+  jwtTokenKey: String!
+  languageCode: AccountUserLanguageCodeChoices!
+  searchDocument: String!
+  uuid: UUID!
+}
+
+"""An enumeration."""
+enum AccountUserLanguageCodeChoices {
+  """Afrikaans"""
+  AF
+
+  """Arabic"""
+  AR
+
+  """Algerian Arabic"""
+  AR_DZ
+
+  """Asturian"""
+  AST
+
+  """Azerbaijani"""
+  AZ
+
+  """Bulgarian"""
+  BG
+
+  """Belarusian"""
+  BE
+
+  """Bengali"""
+  BN
+
+  """Breton"""
+  BR
+
+  """Bosnian"""
+  BS
+
+  """Catalan"""
+  CA
+
+  """Central Kurdish (Sorani)"""
+  CKB
+
+  """Czech"""
+  CS
+
+  """Welsh"""
+  CY
+
+  """Danish"""
+  DA
+
+  """German"""
+  DE
+
+  """Lower Sorbian"""
+  DSB
+
+  """Greek"""
+  EL
+
+  """English"""
+  EN
+
+  """Australian English"""
+  EN_AU
+
+  """British English"""
+  EN_GB
+
+  """Esperanto"""
+  EO
+
+  """Spanish"""
+  ES
+
+  """Argentinian Spanish"""
+  ES_AR
+
+  """Colombian Spanish"""
+  ES_CO
+
+  """Mexican Spanish"""
+  ES_MX
+
+  """Nicaraguan Spanish"""
+  ES_NI
+
+  """Venezuelan Spanish"""
+  ES_VE
+
+  """Estonian"""
+  ET
+
+  """Basque"""
+  EU
+
+  """Persian"""
+  FA
+
+  """Finnish"""
+  FI
+
+  """French"""
+  FR
+
+  """Frisian"""
+  FY
+
+  """Irish"""
+  GA
+
+  """Scottish Gaelic"""
+  GD
+
+  """Galician"""
+  GL
+
+  """Hebrew"""
+  HE
+
+  """Hindi"""
+  HI
+
+  """Croatian"""
+  HR
+
+  """Upper Sorbian"""
+  HSB
+
+  """Hungarian"""
+  HU
+
+  """Armenian"""
+  HY
+
+  """Interlingua"""
+  IA
+
+  """Indonesian"""
+  ID
+
+  """Igbo"""
+  IG
+
+  """Ido"""
+  IO
+
+  """Icelandic"""
+  IS
+
+  """Italian"""
+  IT
+
+  """Japanese"""
+  JA
+
+  """Georgian"""
+  KA
+
+  """Kabyle"""
+  KAB
+
+  """Kazakh"""
+  KK
+
+  """Khmer"""
+  KM
+
+  """Kannada"""
+  KN
+
+  """Korean"""
+  KO
+
+  """Kyrgyz"""
+  KY
+
+  """Luxembourgish"""
+  LB
+
+  """Lithuanian"""
+  LT
+
+  """Latvian"""
+  LV
+
+  """Macedonian"""
+  MK
+
+  """Malayalam"""
+  ML
+
+  """Mongolian"""
+  MN
+
+  """Marathi"""
+  MR
+
+  """Malay"""
+  MS
+
+  """Burmese"""
+  MY
+
+  """Norwegian Bokmål"""
+  NB
+
+  """Nepali"""
+  NE
+
+  """Dutch"""
+  NL
+
+  """Norwegian Nynorsk"""
+  NN
+
+  """Ossetic"""
+  OS
+
+  """Punjabi"""
+  PA
+
+  """Polish"""
+  PL
+
+  """Portuguese"""
+  PT
+
+  """Brazilian Portuguese"""
+  PT_BR
+
+  """Romanian"""
+  RO
+
+  """Russian"""
+  RU
+
+  """Slovak"""
+  SK
+
+  """Slovenian"""
+  SL
+
+  """Albanian"""
+  SQ
+
+  """Serbian"""
+  SR
+
+  """Serbian Latin"""
+  SR_LATN
+
+  """Swedish"""
+  SV
+
+  """Swahili"""
+  SW
+
+  """Tamil"""
+  TA
+
+  """Telugu"""
+  TE
+
+  """Tajik"""
+  TG
+
+  """Thai"""
+  TH
+
+  """Turkmen"""
+  TK
+
+  """Turkish"""
+  TR
+
+  """Tatar"""
+  TT
+
+  """Udmurt"""
+  UDM
+
+  """Ukrainian"""
+  UK
+
+  """Urdu"""
+  UR
+
+  """Uzbek"""
+  UZ
+
+  """Vietnamese"""
+  VI
+
+  """Simplified Chinese"""
+  ZH_HANS
+
+  """Traditional Chinese"""
+  ZH_HANT
+}
+
+"""
+Leverages the internal Python implementation of UUID (uuid.UUID) to provide native UUID objects
+in fields, resolvers and input.
+"""
+scalar UUID
+
+type Mutation {
+  createUser(email: String!, password: String!, username: String!): CreateUser
+
+  """Obtain JSON Web Token mutation"""
+  tokenAuth(username: String!, password: String!): ObtainJSONWebToken
+  verifyToken(token: String): Verify
+  refreshToken(refreshToken: String): Refresh
+}
+
+type CreateUser {
+  user: UserType
+}
+
+"""Obtain JSON Web Token mutation"""
+type ObtainJSONWebToken {
+  payload: GenericScalar!
+  refreshExpiresIn: Int!
+  token: String!
+  refreshToken: String!
+}
+
+"""
+The `GenericScalar` scalar type represents a generic
+GraphQL scalar value that could be:
+String, Boolean, Int, Float, List or Object.
+"""
+scalar GenericScalar
+
+type Verify {
+  payload: GenericScalar!
+}
+
+type Refresh {
+  payload: GenericScalar!
+  refreshExpiresIn: Int!
+  token: String!
+  refreshToken: String!
+}
