@@ -1,16 +1,11 @@
 
 package com.fanimo.ecommerce.elenor.ui
-
-
-import androidx.compose.material3.adaptive.navigation.suite.ExperimentalMaterial3AdaptiveNavigationSuiteApi
-import androidx.compose.material3.adaptive.navigation.suite.NavigationSuiteType
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -19,7 +14,6 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import androidx.tracing.trace
 import com.fanimo.ecommerce.core.data.repository.UserNewsResourceRepository
-
 import com.fanimo.ecommerce.core.data.util.NetworkMonitor
 import com.fanimo.ecommerce.core.data.util.TimeZoneMonitor
 import com.fanimo.ecommerce.elenor.feature.account.navigation.accountRoute

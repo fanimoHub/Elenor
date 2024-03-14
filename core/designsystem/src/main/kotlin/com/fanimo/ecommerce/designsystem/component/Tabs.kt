@@ -9,6 +9,7 @@ import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.TabRowDefaults
+import androidx.compose.material3.TabRowDefaults.SecondaryIndicator
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -75,10 +76,10 @@ fun EleTabRow(
         containerColor = Color.Transparent,
         contentColor = MaterialTheme.colorScheme.onSurface,
         indicator = { tabPositions ->
-            TabRowDefaults.Indicator(
+            SecondaryIndicator(
                 modifier = Modifier.tabIndicatorOffset(tabPositions[selectedTabIndex]),
                 height = 2.dp,
-                color = MaterialTheme.colorScheme.onSurface,
+                color = MaterialTheme.colorScheme.onSurface
             )
         },
         tabs = tabs,
