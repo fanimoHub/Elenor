@@ -6,6 +6,7 @@ import coil.ImageLoader
 import coil.decode.SvgDecoder
 import coil.util.DebugLogger
 import com.fanimo.ecommerce.core.network.BuildConfig
+import com.fanimo.ecommerce.core.network.EleGraphqlApi
 import com.fanimo.ecommerce.core.network.fake.FakeAssetManager
 import dagger.Module
 import dagger.Provides
@@ -21,6 +22,11 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
+
+
+    @Provides
+    @Singleton
+    fun provideWebService() = EleGraphqlApi()
 
     @Provides
     @Singleton
