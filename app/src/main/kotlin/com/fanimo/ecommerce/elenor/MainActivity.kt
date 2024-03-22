@@ -30,7 +30,7 @@ import com.fanimo.ecommerce.core.data.util.NetworkMonitor
 import com.fanimo.ecommerce.core.data.util.TimeZoneMonitor
 import com.fanimo.ecommerce.core.model.data.DarkThemeConfig
 import com.fanimo.ecommerce.core.model.data.ThemeBrand
-import com.fanimo.ecommerce.core.network.apolloClient
+import com.fanimo.ecommerce.core.network.EleGraphqlApi
 import com.fanimo.ecommerce.core.network.graphql.LaunchListQuery
 import com.fanimo.ecommerce.core.ui.LocalTimeZone
 import com.fanimo.ecommerce.designsystem.theme.EleTheme
@@ -59,6 +59,9 @@ class MainActivity : ComponentActivity() {
     lateinit var networkMonitor: NetworkMonitor
 
     @Inject
+    lateinit var webService: EleGraphqlApi
+
+    @Inject
     lateinit var timeZoneMonitor: TimeZoneMonitor
 
     @Inject
@@ -70,7 +73,6 @@ class MainActivity : ComponentActivity() {
 
     private val viewModel: MainActivityViewModel by viewModels()
 
-    //    @OptIn(ExperimentalMaterial3AdaptiveApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
 
@@ -135,7 +137,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     LaunchedEffect(Unit) {
 
-                        val response = apolloClient.query(LaunchListQuery()).execute()
+                        val response = webService.getApolloClient().query(LaunchListQuery()).execute()
 
                         Log.d("MyLaunchList", "Success ${response.data}")
 
@@ -203,11 +205,6 @@ private fun shouldUseDarkTheme(
     }
 }
 
-
-//@Composable
-//private fun IntSize.toDpSize(): DpSize = with(LocalDensity.current) {
-//    DpSize(width.toDp(), height.toDp())
-//}
 
 
 private val lightScrim = android.graphics.Color.argb(0xe6, 0xFF, 0xFF, 0xFF)
