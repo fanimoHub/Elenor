@@ -20,7 +20,7 @@ enum class EleFlavor(val dimension: FlavorDimension, val applicationIdSuffix: St
 }
 
 fun configureFlavors(
-    commonExtension: CommonExtension<*, *, *, *, *>,
+    commonExtension: CommonExtension<*, *, *, *, *, *>,
     flavorConfigurationBlock: ProductFlavor.(flavor: EleFlavor) -> Unit = {}
 ) {
     commonExtension.apply {
