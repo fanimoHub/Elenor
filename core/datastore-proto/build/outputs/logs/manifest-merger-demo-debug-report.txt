@@ -1,16 +1,16 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\fanim\AndroidStudioProjects\Elenor\core\datastore-proto\build\intermediates\tmp\ProcessLibraryManifest\demo\debug\tempAndroidManifest4723467888397179413.xml:2:13-83
-INJECTED from C:\Users\fanim\AndroidStudioProjects\Elenor\core\datastore-proto\build\intermediates\tmp\ProcessLibraryManifest\demo\debug\tempAndroidManifest4723467888397179413.xml:2:13-83
+ADDED from C:\Users\fanim\AndroidStudioProjects\Elenor\core\datastore-proto\build\intermediates\tmp\ProcessLibraryManifest\demo\debug\tempAndroidManifest11836014872974897589.xml:2:13-83
+INJECTED from C:\Users\fanim\AndroidStudioProjects\Elenor\core\datastore-proto\build\intermediates\tmp\ProcessLibraryManifest\demo\debug\tempAndroidManifest11836014872974897589.xml:2:13-83
 	package
-		INJECTED from C:\Users\fanim\AndroidStudioProjects\Elenor\core\datastore-proto\build\intermediates\tmp\ProcessLibraryManifest\demo\debug\tempAndroidManifest4723467888397179413.xml
+		INJECTED from C:\Users\fanim\AndroidStudioProjects\Elenor\core\datastore-proto\build\intermediates\tmp\ProcessLibraryManifest\demo\debug\tempAndroidManifest11836014872974897589.xml
 	xmlns:android
-		ADDED from C:\Users\fanim\AndroidStudioProjects\Elenor\core\datastore-proto\build\intermediates\tmp\ProcessLibraryManifest\demo\debug\tempAndroidManifest4723467888397179413.xml:2:23-81
+		ADDED from C:\Users\fanim\AndroidStudioProjects\Elenor\core\datastore-proto\build\intermediates\tmp\ProcessLibraryManifest\demo\debug\tempAndroidManifest11836014872974897589.xml:2:23-81
 uses-sdk
-INJECTED from C:\Users\fanim\AndroidStudioProjects\Elenor\core\datastore-proto\build\intermediates\tmp\ProcessLibraryManifest\demo\debug\tempAndroidManifest4723467888397179413.xml reason: use-sdk injection requested
-INJECTED from C:\Users\fanim\AndroidStudioProjects\Elenor\core\datastore-proto\build\intermediates\tmp\ProcessLibraryManifest\demo\debug\tempAndroidManifest4723467888397179413.xml
-INJECTED from C:\Users\fanim\AndroidStudioProjects\Elenor\core\datastore-proto\build\intermediates\tmp\ProcessLibraryManifest\demo\debug\tempAndroidManifest4723467888397179413.xml
+INJECTED from C:\Users\fanim\AndroidStudioProjects\Elenor\core\datastore-proto\build\intermediates\tmp\ProcessLibraryManifest\demo\debug\tempAndroidManifest11836014872974897589.xml reason: use-sdk injection requested
+INJECTED from C:\Users\fanim\AndroidStudioProjects\Elenor\core\datastore-proto\build\intermediates\tmp\ProcessLibraryManifest\demo\debug\tempAndroidManifest11836014872974897589.xml
+INJECTED from C:\Users\fanim\AndroidStudioProjects\Elenor\core\datastore-proto\build\intermediates\tmp\ProcessLibraryManifest\demo\debug\tempAndroidManifest11836014872974897589.xml
 	android:targetSdkVersion
-		INJECTED from C:\Users\fanim\AndroidStudioProjects\Elenor\core\datastore-proto\build\intermediates\tmp\ProcessLibraryManifest\demo\debug\tempAndroidManifest4723467888397179413.xml
+		INJECTED from C:\Users\fanim\AndroidStudioProjects\Elenor\core\datastore-proto\build\intermediates\tmp\ProcessLibraryManifest\demo\debug\tempAndroidManifest11836014872974897589.xml
 	android:minSdkVersion
-		INJECTED from C:\Users\fanim\AndroidStudioProjects\Elenor\core\datastore-proto\build\intermediates\tmp\ProcessLibraryManifest\demo\debug\tempAndroidManifest4723467888397179413.xml
+		INJECTED from C:\Users\fanim\AndroidStudioProjects\Elenor\core\datastore-proto\build\intermediates\tmp\ProcessLibraryManifest\demo\debug\tempAndroidManifest11836014872974897589.xml
