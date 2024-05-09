@@ -73,3 +73,4 @@ The app uses adaptive layouts to
 
 Disclaimer: Everything you see here is open and free to use as long as you comply with the [license](https://github.com/fanimoHub/Elenor/blob/master/LICENSE). There are no hidden charges. We promise to do our best to fix bugs and improve the code.
 
+Graphql
