@@ -34,6 +34,7 @@ object PreviewParameterData {
         darkThemeConfig = DarkThemeConfig.DARK,
         shouldHideOnboarding = true,
         useDynamicColor = false,
+        isLoggedIn = true,
     )
 
     val topics = listOf(

@@ -31,4 +31,5 @@ interface UserDataRepository {
 
 
     suspend fun setShouldHideOnboarding(shouldHideOnboarding: Boolean)
+    suspend fun setIsLoggedIn(isLoggedIn: Boolean)
 }
