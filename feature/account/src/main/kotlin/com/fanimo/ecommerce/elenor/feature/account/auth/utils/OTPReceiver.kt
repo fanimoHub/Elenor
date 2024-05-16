@@ -5,27 +5,22 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Build
+import android.os.Build.VERSION.SDK_INT
 import android.os.Bundle
+import android.os.Parcelable
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberUpdatedState
+import androidx.core.content.IntentCompat.getParcelableExtra
 import com.google.android.gms.auth.api.phone.SmsRetriever
 import com.google.android.gms.auth.api.phone.SmsRetrieverClient
 import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.gms.common.api.Status
 import java.util.regex.Matcher
 import java.util.regex.Pattern
-
-/**
- * BroadcastReceiver to wait for SMS messages. This can be registered either
- * in the AndroidManifest or at runtime. Should filter Intents on
- * SmsRetriever.SMS_RETRIEVED_ACTION.
- *
- * TODO: Working in Android 13 (API 33) and 14 (API 34), but not working in Android 12 (API 31)
- *
- */
 
 
 @Composable
@@ -34,8 +29,6 @@ fun OtpBroadcastReceiver(
     systemAction: String,
     onSystemEvent: (otpValue: String) -> Unit
 ) {
-    // Grab the current context in this part of the UI tree
-//    val context = LocalContext.current
 
     // Safely use the latest onSystemEvent lambda passed to the function
     val currentOnSystemEvent by rememberUpdatedState(onSystemEvent)
@@ -48,22 +41,30 @@ fun OtpBroadcastReceiver(
                 if (intent != null) {
                     if (SmsRetriever.SMS_RETRIEVED_ACTION == intent.action) {
                         val extras = intent.extras
-                        val status = extras?.get(SmsRetriever.EXTRA_STATUS) as Status
-                        Log.e("dani", "onReceive")
-                        when (status.statusCode) {
-                            CommonStatusCodes.SUCCESS -> {
-                                Log.e("dani", "SUCCESS")
-                                val message = extras.getString(SmsRetriever.EXTRA_SMS_MESSAGE) as String
-                                Log.e("dani", "message1$message")
+//                      val status = extras?.get(SmsRetriever.EXTRA_STATUS) as Status
+                        val status = when {
+                            SDK_INT >= 33 -> intent.getParcelableExtra(SmsRetriever.EXTRA_STATUS, Status::class.java)
+                            else -> @Suppress("DEPRECATION") (intent.getParcelableExtra(SmsRetriever.EXTRA_STATUS))
+                        }
 
-                                val otpValue = extractOtpFromMessage(message)
-                                if (otpValue != null) {
-                                    Log.e("SMS", otpValue)
-                                    currentOnSystemEvent(otpValue)
+                        Log.e("fani", "onReceive")
+                        if (status != null) {
+                            when (status.statusCode) {
+                                CommonStatusCodes.SUCCESS -> {
+                                    Log.e("fani", "SUCCESS")
+                                    val message = extras?.getString(SmsRetriever.EXTRA_SMS_MESSAGE) as String
+                                    Log.e("fani", "message1$message")
+
+                                    val otpValue = extractOtpFromMessage(message)
+                                    if (otpValue != null) {
+                                        Log.e("SMS", otpValue)
+                                        currentOnSystemEvent(otpValue)
+                                    }
                                 }
-                            }
-                            else -> {
-                                // Handle other status codes
+
+                                else -> {
+                                    // Handle other status codes
+                                }
                             }
                         }
                     }
@@ -71,8 +72,7 @@ fun OtpBroadcastReceiver(
             }
         }
 
-//        context.registerReceiver(broadcast, intentFilter)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        if (SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             context.registerReceiver(
                 broadcast,
                 intentFilter,
@@ -91,6 +91,7 @@ fun OtpBroadcastReceiver(
     }
 }
 
+
 private fun extractOtpFromMessage(message: String): String? {
     val p: Pattern = Pattern.compile("(|^)\\d{6}")
     val m: Matcher = p.matcher(message)
@@ -100,46 +101,6 @@ private fun extractOtpFromMessage(message: String): String? {
     return null
 }
 
-
-
-
-//class OTPReceiver : BroadcastReceiver() {
-//    private var otpReceiveListener: OTPReceiveListener? = null
-//
-//    fun init(otpReceiveListener: OTPReceiveListener?) {
-//        this.otpReceiveListener = otpReceiveListener
-//    }
-//
-//    override fun onReceive(context: Context?, intent: Intent?) {
-//        if (SmsRetriever.SMS_RETRIEVED_ACTION == intent?.action) {
-//            val extras: Bundle? = intent.extras
-//            val status: Status = extras?.get(SmsRetriever.EXTRA_STATUS) as Status
-//
-//            when (status.statusCode) {
-//                CommonStatusCodes.SUCCESS -> {
-//                    // Get SMS message contents
-//                    val msg = extras.getString(SmsRetriever.EXTRA_SMS_MESSAGE) as String
-//                    Log.e("OTPReceiver", "SMS Received in OTPReceiver: $msg")
-//
-//                    // extract the 6-digit code from the SMS
-//                    val smsCode = msg.let { "[0-9]{6}".toRegex().find(it) }
-//                    Log.e("OTPReceiver", "OTP fetched from SMS in OTPReceiver: $smsCode")
-//
-//                    smsCode?.value?.let { otpReceiveListener?.onOTPReceived(it) }
-//                }
-//
-//                CommonStatusCodes.TIMEOUT -> {
-//                    otpReceiveListener?.onOTPTimeOut()
-//                }
-//            }
-//        }
-//    }
-//
-//    interface OTPReceiveListener {
-//        fun onOTPReceived(otp: String?)
-//        fun onOTPTimeOut()
-//    }
-//}
 
 fun startSMSRetrieverClient(context: Context) {
     val client: SmsRetrieverClient = SmsRetriever.getClient(context)

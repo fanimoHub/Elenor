@@ -3,7 +3,6 @@ package com.fanimo.ecommerce.elenor.feature.home
 import android.net.Uri
 import android.os.Build
 import androidx.activity.compose.ReportDrawnWhen
-import androidx.annotation.VisibleForTesting
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -12,7 +11,6 @@ import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -43,7 +41,6 @@ import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -62,7 +59,6 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.sp
@@ -70,60 +66,22 @@ import androidx.compose.ui.util.trace
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.fanimo.ecommerce.core.model.data.UserNewsResource
-import com.fanimo.ecommerce.core.ui.DevicePreviews
 import com.fanimo.ecommerce.core.ui.NewsFeedUiState
 import com.fanimo.ecommerce.core.ui.TrackScreenViewEvent
 import com.fanimo.ecommerce.core.ui.TrackScrollJank
-import com.fanimo.ecommerce.core.ui.UserNewsResourcePreviewParameterProvider
 import com.fanimo.ecommerce.core.ui.launchCustomChromeTab
 import com.fanimo.ecommerce.core.ui.newsFeed
 import com.fanimo.ecommerce.designsystem.component.DynamicAsyncImage
 import com.fanimo.ecommerce.designsystem.component.EleButton
 import com.fanimo.ecommerce.designsystem.component.EleIconToggleButton
-import com.fanimo.ecommerce.designsystem.component.EleOverlayLoadingWheel
 import com.fanimo.ecommerce.designsystem.component.scrollbar.DecorativeScrollbar
 import com.fanimo.ecommerce.designsystem.component.scrollbar.DraggableScrollbar
 import com.fanimo.ecommerce.designsystem.component.scrollbar.rememberDraggableScroller
 import com.fanimo.ecommerce.designsystem.component.scrollbar.scrollbarState
 import com.fanimo.ecommerce.designsystem.icon.EleIcons
-import com.fanimo.ecommerce.designsystem.theme.EleTheme
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus.Denied
 import com.google.accompanist.permissions.rememberPermissionState
-
-/*@Composable
-internal fun HomeRoute(
-    onProductClick: () -> Unit,
-    modifier: Modifier = Modifier,
-
-) {
-
-    HomeScreen(
-        onProductClick = onProductClick,
-        modifier = modifier,
-    )
-}*/
-
-/*
-
-@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-@Composable
-internal fun HomeScreen(
-    onProductClick: () -> Unit,
-    modifier: Modifier = Modifier,
-){
-    Column {
-        Text(text = "This is Home Screen",
-            modifier = modifier,
-        )
-        Button(onClick = onProductClick) {
-            Text(text = "Product")
-        }
-    }
-
-
-}
-*/
 
 
 @Composable
