@@ -23,7 +23,7 @@ import com.fanimo.ecommerce.designsystem.icon.EleIcons
 import com.fanimo.ecommerce.designsystem.theme.EleTheme
 
 /**
- * Now in Android filled button with generic content slot. Wraps Material 3 [Button].
+ * Ele filled button with generic content slot. Wraps Material 3 [Button].
  *
  * @param onClick Will be called when the user clicks the button.
  * @param modifier Modifier to be applied to the button.
@@ -54,7 +54,7 @@ fun EleButton(
 }
 
 /**
- * Now in Android filled button with text and icon content slots.
+ * Ele filled button with text and icon content slots.
  *
  * @param onClick Will be called when the user clicks the button.
  * @param modifier Modifier to be applied to the button.
@@ -89,7 +89,7 @@ fun EleButton(
 }
 
 /**
- * Now in Android outlined button with generic content slot. Wraps Material 3 [OutlinedButton].
+ * Ele outlined button with generic content slot. Wraps Material 3 [OutlinedButton].
  *
  * @param onClick Will be called when the user clicks the button.
  * @param modifier Modifier to be applied to the button.
@@ -130,7 +130,7 @@ fun EleOutlinedButton(
 }
 
 /**
- * Now in Android outlined button with text and icon content slots.
+ * Ele outlined button with text and icon content slots.
  *
  * @param onClick Will be called when the user clicks the button.
  * @param modifier Modifier to be applied to the button.
@@ -165,7 +165,7 @@ fun EleOutlinedButton(
 }
 
 /**
- * Now in Android text button with generic content slot. Wraps Material 3 [TextButton].
+ * Ele text button with generic content slot. Wraps Material 3 [TextButton].
  *
  * @param onClick Will be called when the user clicks the button.
  * @param modifier Modifier to be applied to the button.
@@ -192,7 +192,7 @@ fun EleTextButton(
 }
 
 /**
- * Now in Android text button with text and icon content slots.
+ * Ele text button with text and icon content slots.
  *
  * @param onClick Will be called when the user clicks the button.
  * @param modifier Modifier to be applied to the button.
@@ -222,7 +222,7 @@ fun EleTextButton(
 }
 
 /**
- * Internal Now in Android button content layout for arranging the text label and leading icon.
+ * Internal Ele button content layout for arranging the text label and leading icon.
  *
  * @param text The button text label content.
  * @param leadingIcon The button leading icon content. Default is `null` for no leading icon.Ï
@@ -296,7 +296,7 @@ fun EleButtonLeadingIconPreview() {
 }
 
 /**
- * Now in Android button default values.
+ * Ele button default values.
  */
 object EleButtonDefaults {
     // TODO: File bug

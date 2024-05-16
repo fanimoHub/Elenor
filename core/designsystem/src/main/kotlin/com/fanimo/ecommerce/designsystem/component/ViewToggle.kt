@@ -21,7 +21,7 @@ import com.fanimo.ecommerce.designsystem.icon.EleIcons
 import com.fanimo.ecommerce.designsystem.theme.EleTheme
 
 /**
- * Now in Android view toggle button with included trailing icon as well as compact and expanded
+ * Ele view toggle button with included trailing icon as well as compact and expanded
  * text label content slots.
  *
  * @param expanded Whether the view toggle is currently in expanded mode or compact mode.
@@ -63,7 +63,7 @@ fun EleViewToggleButton(
 }
 
 /**
- * Internal Now in Android view toggle button content layout for arranging the text label and
+ * Internal Ele view toggle button content layout for arranging the text label and
  * trailing icon.
  *
  * @param text The button text label content.
@@ -126,7 +126,7 @@ fun ViewTogglePreviewCompact() {
 }
 
 /**
- * Now in Android view toggle default values.
+ * Ele view toggle default values.
  */
 object EleViewToggleDefaults {
     // TODO: File bug

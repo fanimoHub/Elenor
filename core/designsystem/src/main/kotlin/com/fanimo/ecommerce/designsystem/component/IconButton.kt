@@ -14,7 +14,7 @@ import com.fanimo.ecommerce.designsystem.icon.EleIcons
 import com.fanimo.ecommerce.designsystem.theme.EleTheme
 
 /**
- * Now in Android toggle button with icon and checked icon content slots. Wraps Material 3
+ * Ele toggle button with icon and checked icon content slots. Wraps Material 3
  * [IconButton].
  *
  * @param checked Whether the toggle button is currently checked.
@@ -104,7 +104,7 @@ fun IconButtonPreviewUnchecked() {
 }
 
 /**
- * Now in Android icon button default values.
+ * Ele icon button default values.
  */
 object EleIconButtonDefaults {
     // TODO: File bug

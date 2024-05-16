@@ -90,7 +90,7 @@ object PreviewParameterData {
             newsResource = NewsResource(
                 id = "2",
                 title = "Thanks for helping us reach 1M YouTube Subscribers",
-                content = "Thank you everyone for following the Now in Android series and everything the " +
+                content = "Thank you everyone for following the Ele series and everything the " +
                     "Android Developers YouTube channel has to offer. During the Android Developer " +
                     "Summit, our YouTube channel reached 1 million subscribers! Here’s a small video to " +
                     "thank you all.",

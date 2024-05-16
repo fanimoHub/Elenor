@@ -19,7 +19,7 @@ import com.fanimo.ecommerce.designsystem.icon.EleIcons
 import com.fanimo.ecommerce.designsystem.theme.EleTheme
 
 /**
- * Now in Android filter chip with included leading checked icon as well as text content slot.
+ * Ele filter chip with included leading checked icon as well as text content slot.
  *
  * @param selected Whether the chip is currently checked.
  * @param onSelectedChange Called when the user clicks the chip and toggles checked.
@@ -107,7 +107,7 @@ fun ChipPreview() {
 }
 
 /**
- * Now in Android chip default values.
+ * Ele chip default values.
  */
 object EleChipDefaults {
     // TODO: File bug

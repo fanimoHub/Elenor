@@ -7,7 +7,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
 /**
- * Now in Android typography.
+ * Ele typography.
  */
 internal val EleTypography = Typography(
     displayLarge = TextStyle(

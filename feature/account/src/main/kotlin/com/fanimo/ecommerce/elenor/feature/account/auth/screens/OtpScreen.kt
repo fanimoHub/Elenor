@@ -3,7 +3,6 @@ package com.fanimo.ecommerce.elenor.feature.account.auth.screens
 import android.app.Activity
 import android.content.Context
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
@@ -30,7 +29,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.focus.FocusRequester
@@ -45,31 +43,28 @@ import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.fanimo.ecommerce.elenor.feature.account.auth.components.OtpInputField
 import com.fanimo.ecommerce.elenor.feature.account.R
+import com.fanimo.ecommerce.elenor.feature.account.auth.AuthViewModel
 import com.fanimo.ecommerce.elenor.feature.account.auth.utils.OtpBroadcastReceiver
 import com.fanimo.ecommerce.elenor.feature.account.auth.utils.startSMSRetrieverClient
 import com.google.android.gms.auth.api.phone.SmsRetriever
+import dagger.hilt.android.lifecycle.HiltViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun OtpScreen() {
+fun OtpScreen(
+    phoneNumber: String,
+    viewModel: AuthViewModel = hiltViewModel()
+    ) {
     val context = LocalContext.current
     var otpValue by remember { mutableStateOf("") }
     var isOtpFilled by remember { mutableStateOf(false) }
     val focusRequester = remember { FocusRequester() }
     val keyboardController = LocalSoftwareKeyboardController.current
 
-    /**
-     * Right now we don't have support for Autofill in Compose.
-     * See [com.appmason.jetplayground.ui.components.Autofill] for some temporary solutions.
-     *
-     * If we have support in the future and want user to autofill OTP from keyboard manually,
-     * then we do not need to fetch OTP automatically using Google SMS Retriever API and in
-     * that case, we can totally remove this [OtpReceiverEffect] and let Autofill handle it.
-     * But Google SMS Retriever API is a great way anyways to fetch and populate OTP!
-     */
+
     OtpReceiverEffect(
         context = context,
         onOtpReceived = { otp ->
@@ -154,7 +149,7 @@ fun OtpScreen() {
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(24.dp, 0.dp),
-                    text = "Please verify your phone number with the OTP we sent to (***)***-2193.",
+                    text = "Please verify your phone number with the OTP we sent to $phoneNumber",
                     style = MaterialTheme.typography.bodyMedium,
                     color = Color.DarkGray,
                     textAlign = TextAlign.Center
