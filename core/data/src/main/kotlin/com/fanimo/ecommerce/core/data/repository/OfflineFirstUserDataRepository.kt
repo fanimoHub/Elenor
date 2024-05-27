@@ -59,6 +59,6 @@ class OfflineFirstUserDataRepository @Inject constructor(
     }
 
     override suspend fun setIsLoggedIn(isLoggedIn: Boolean) {
-        TODO("Not yet implemented")
+        elePreferencesDataSource.setIsLoggedIn(isLoggedIn)
     }
 }

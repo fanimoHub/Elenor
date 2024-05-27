@@ -149,16 +149,10 @@ class MainActivity : ComponentActivity() {
                     LaunchedEffect(Unit) {
 
                         val response = webService.getApolloClient().query(LaunchListQuery()).execute()
-
                         Log.d("MyLaunchList", "Success ${response.data}")
-
+                        Log.d("MyMainUiState", uiState.toString())
                     }
-                    val isLoggedIn = shouldLogin(uiState)
-                    if(isLoggedIn){
                         EleApp(appState)
-                    }else{
-                        Text(text = "Log in plz")
-                    }
 
                 }
             }
@@ -218,15 +212,6 @@ private fun shouldUseDarkTheme(
         DarkThemeConfig.LIGHT -> false
         DarkThemeConfig.DARK -> true
     }
-}
-
-
-@Composable
-private fun shouldLogin(
-    uiState: MainActivityUiState,
-): Boolean = when (uiState) {
-    Loading -> false
-    is Success -> uiState.userData.isLoggedIn
 }
 
 

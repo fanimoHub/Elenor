@@ -65,13 +65,16 @@ android {
         }
     }
 
+    lint {
+        checkDependencies = true
+    }
+
 
 }
 
 dependencies {
     api(libs.kotlinx.datetime)
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.window.manager)

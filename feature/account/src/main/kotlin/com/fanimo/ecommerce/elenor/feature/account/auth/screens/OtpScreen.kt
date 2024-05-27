@@ -51,12 +51,17 @@ import com.fanimo.ecommerce.elenor.feature.account.auth.utils.OtpBroadcastReceiv
 import com.fanimo.ecommerce.elenor.feature.account.auth.utils.startSMSRetrieverClient
 import com.google.android.gms.auth.api.phone.SmsRetriever
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun OtpScreen(
+    onHomeClick: () -> Unit,
+    popBack: () -> Boolean,
     phoneNumber: String,
-    viewModel: AuthViewModel = hiltViewModel()
+    loginUser:()-> Unit,
+    setOtpValue:(value:String)->Unit,
+    modifier: Modifier = Modifier,
     ) {
     val context = LocalContext.current
     var otpValue by remember { mutableStateOf("") }
@@ -72,6 +77,9 @@ fun OtpScreen(
             if (otpValue.length == 6) {
                 keyboardController?.hide()
                 isOtpFilled = true
+                setOtpValue(otpValue)
+                loginUser()
+                popBack()
             }
         }
     )
@@ -187,7 +195,7 @@ fun OtpScreen(
 fun OtpReceiverEffect(
     context: Context,
     onOtpReceived: (String) -> Unit
-) {
+    ) {
 //    val otpReceiver = remember { OTPReceiver() }
     startSMSRetrieverClient(context)
     OtpBroadcastReceiver(

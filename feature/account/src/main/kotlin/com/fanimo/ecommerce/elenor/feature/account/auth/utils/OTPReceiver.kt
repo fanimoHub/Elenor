@@ -6,15 +6,11 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Build
 import android.os.Build.VERSION.SDK_INT
-import android.os.Bundle
-import android.os.Parcelable
 import android.util.Log
-import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberUpdatedState
-import androidx.core.content.IntentCompat.getParcelableExtra
 import com.google.android.gms.auth.api.phone.SmsRetriever
 import com.google.android.gms.auth.api.phone.SmsRetrieverClient
 import com.google.android.gms.common.api.CommonStatusCodes

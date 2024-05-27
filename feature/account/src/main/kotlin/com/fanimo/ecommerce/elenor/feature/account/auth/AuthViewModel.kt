@@ -1,12 +1,17 @@
 package com.fanimo.ecommerce.elenor.feature.account.auth
 
+import android.util.Log
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavController
 import com.fanimo.ecommerce.core.data.repository.UserDataRepository
 import com.fanimo.ecommerce.core.model.data.UserData
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
@@ -16,19 +21,32 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
-    userDataRepository: UserDataRepository,
+    private val userDataRepository: UserDataRepository,
 ): ViewModel() {
 
-    val uiState: StateFlow<AuthUiState> = userDataRepository.userData.map {
-        AuthUiState.Success(it)
-    }.stateIn(
-        scope = viewModelScope,
-        initialValue = AuthUiState.Loading,
-        started = SharingStarted.WhileSubscribed(5_000)
-    )
+//    val uiState: StateFlow<AuthUiState> = userDataRepository.userData.map {
+//        AuthUiState.Success(it)
+//    }.stateIn(
+//        scope = viewModelScope,
+//        initialValue = AuthUiState.Loading,
+//        started = SharingStarted.WhileSubscribed(5_000)
+//    )
+private val isLoggedIn: Flow<Boolean> =
+    userDataRepository.userData.map { !it.isLoggedIn }
 
-    private var _loginState  = mutableStateOf(AuthState())
-    val loginState: State<AuthState> = _loginState
+    val loginUiState: StateFlow<LoginUiState> = isLoggedIn.map { isLoggedIn ->
+
+        if (isLoggedIn) {
+            LoginUiState.LoggedIn
+        } else {
+            LoginUiState.NotLoggedIn
+        }
+    }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = LoginUiState.Loading,
+        )
 
 
     private val _phoneNumber = mutableStateOf(TextFieldState())
@@ -38,6 +56,12 @@ class AuthViewModel @Inject constructor(
         _phoneNumber.value = phoneNumber.value.copy(text = value)
     }
 
+    private val _otpValue = mutableStateOf(TextFieldState())
+    private val otpValue: State<TextFieldState> = _otpValue
+
+    fun setOtpValue(value:String){
+        _otpValue.value = otpValue.value.copy(text = value)
+    }
 
     private val _firstName = mutableStateOf(TextFieldState())
     val firstName: State<TextFieldState> = _firstName
@@ -69,6 +93,14 @@ class AuthViewModel @Inject constructor(
 
     fun loginUser(){
         viewModelScope.launch {
+//            requestOtp()
+//            verifyOtp()
+            userDataRepository.setIsLoggedIn(true)
+            delay(100)
+
+
+
+            Log.d("My isLogin afterAuth", loginUiState.value.toString())
 
 
 
@@ -91,11 +123,11 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-    fun requestOtp(phoneNumber: String){
+    private fun requestOtp(){
 
     }
-    fun verifyOtp(){
-
+    private fun verifyOtp(){
+        val nnn = otpValue
     }
 
     fun registerUser(){
@@ -125,17 +157,15 @@ class AuthViewModel @Inject constructor(
 
 }
 
-sealed interface AuthUiState {
-    data object Loading : AuthUiState
 
-    data class Success(val userData: UserData) : AuthUiState
-}
 
 data class TextFieldState(
     val text :  String = "",
     val error: String? = null
 )
 
-data class AuthState(
-    val isLoading: Boolean = false
-)
+sealed interface LoginUiState {
+    data object Loading : LoginUiState  // isLoggedIn = unknown
+    data object NotLoggedIn: LoginUiState // isLoggedIn = false
+    data object LoggedIn : LoginUiState // isLoggedIn = true
+}
