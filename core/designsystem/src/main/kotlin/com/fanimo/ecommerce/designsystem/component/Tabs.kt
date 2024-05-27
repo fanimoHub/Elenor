@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import com.fanimo.ecommerce.designsystem.theme.EleTheme
 
 /**
- * Now in Android tab. Wraps Material 3 [Tab] and shifts text label down.
+ * Ele tab. Wraps Material 3 [Tab] and shifts text label down.
  *
  * @param selected Whether this tab is selected or not.
  * @param onClick The callback to be invoked when this tab is selected.
@@ -57,7 +57,7 @@ fun EleTab(
 }
 
 /**
- * Now in Android tab row. Wraps Material 3 [TabRow].
+ * Ele tab row. Wraps Material 3 [TabRow].
  *
  * @param selectedTabIndex The index of the currently selected tab.
  * @param modifier Modifier to be applied to the tab row.

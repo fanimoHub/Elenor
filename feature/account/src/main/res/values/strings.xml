@@ -2,4 +2,5 @@
 <resources>
     <string name="account_icon_text">Account</string>
     <string name="account_page_name">Account</string>
+    <string name="login_heading_text">Login</string>
 </resources>

@@ -58,7 +58,7 @@ fun TagPreview() {
 }
 
 /**
- * Now in Android tag default values.
+ * Ele tag default values.
  */
 object EleTagDefaults {
     const val UnfollowedTopicTagContainerAlpha = 0.5f

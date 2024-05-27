@@ -9,3 +9,9 @@ plugins {
 android {
     namespace = "com.fanimo.ecommerce.elenor.feature.account"
 }
+
+dependencies {
+    //SMSRetrieval API Dependencies for Auto OTP Verification
+    implementation(libs.play.services.auth.api.phone)
+    implementation(libs.play.services.auth)
+}

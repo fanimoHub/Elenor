@@ -1,5 +1,6 @@
 package com.fanimo.ecommerce.elenor
 
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -7,7 +8,9 @@ import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
@@ -38,6 +41,7 @@ import com.fanimo.ecommerce.elenor.MainActivityUiState.Loading
 import com.fanimo.ecommerce.elenor.MainActivityUiState.Success
 import com.fanimo.ecommerce.elenor.ui.EleApp
 import com.fanimo.ecommerce.elenor.ui.rememberEleAppState
+import com.fanimo.ecommerce.elenor.utils.AppSignatureHelper
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
@@ -73,6 +77,7 @@ class MainActivity : ComponentActivity() {
 
     private val viewModel: MainActivityViewModel by viewModels()
 
+    @RequiresApi(Build.VERSION_CODES.P)
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
 
@@ -97,6 +102,12 @@ class MainActivity : ComponentActivity() {
                 Loading -> true
                 is Success -> false
             }
+        }
+
+        val signatureHelper = AppSignatureHelper(this)
+        val appSignatures = signatureHelper.appSignatures
+        for (signature in appSignatures) {
+            Log.e("MyOTP", signature)
         }
 
 
@@ -142,8 +153,12 @@ class MainActivity : ComponentActivity() {
                         Log.d("MyLaunchList", "Success ${response.data}")
 
                     }
-                    EleApp(appState)
-
+                    val isLoggedIn = shouldLogin(uiState)
+                    if(isLoggedIn){
+                        EleApp(appState)
+                    }else{
+                        Text(text = "Log in plz")
+                    }
 
                 }
             }
@@ -205,6 +220,14 @@ private fun shouldUseDarkTheme(
     }
 }
 
+
+@Composable
+private fun shouldLogin(
+    uiState: MainActivityUiState,
+): Boolean = when (uiState) {
+    Loading -> false
+    is Success -> uiState.userData.isLoggedIn
+}
 
 
 private val lightScrim = android.graphics.Color.argb(0xe6, 0xFF, 0xFF, 0xFF)

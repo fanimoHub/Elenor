@@ -40,6 +40,7 @@ class ElePreferencesDataSource @Inject constructor(
                 },
                 useDynamicColor = it.useDynamicColor,
                 shouldHideOnboarding = it.shouldHideOnboarding,
+                isLoggedIn = true
             )
         }
 

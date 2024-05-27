@@ -57,4 +57,8 @@ class OfflineFirstUserDataRepository @Inject constructor(
         elePreferencesDataSource.setShouldHideOnboarding(shouldHideOnboarding)
         analyticsHelper.logOnboardingStateChanged(shouldHideOnboarding)
     }
+
+    override suspend fun setIsLoggedIn(isLoggedIn: Boolean) {
+        TODO("Not yet implemented")
+    }
 }
