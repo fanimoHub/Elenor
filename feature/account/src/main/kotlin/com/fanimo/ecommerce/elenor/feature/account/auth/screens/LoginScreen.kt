@@ -1,5 +1,6 @@
 package com.fanimo.ecommerce.elenor.feature.account.auth.screens
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -36,6 +37,7 @@ import com.fanimo.ecommerce.elenor.feature.account.R
 @Composable
 fun LoginScreen(
     onPhoneNumberEntered: (String) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
 
     var phoneNumber by remember { mutableStateOf("") }
@@ -52,12 +54,13 @@ fun LoginScreen(
                 .navigationBarsPadding()
                 .imePadding()
                 .verticalScroll(rememberScrollState()),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
             AsyncImage(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(128.dp)
+                    .height(256.dp)
                     .padding(8.dp),
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(data = R.drawable.logo)
@@ -66,6 +69,7 @@ fun LoginScreen(
                     .build(),
                 contentDescription = stringResource(id = R.string.login_heading_text)
             )
+            Spacer(modifier = Modifier.height(32.dp))
             // Phone number input field
             OutlinedTextField(
                 value = phoneNumber,
@@ -82,7 +86,7 @@ fun LoginScreen(
             )
 
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(32.dp))
 
             // Submit button
             EleButton(

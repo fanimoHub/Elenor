@@ -6,9 +6,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import com.fanimo.ecommerce.elenor.feature.account.navigation.accountScreen
+import com.fanimo.ecommerce.elenor.feature.account.navigation.authScreen
+import com.fanimo.ecommerce.elenor.feature.account.navigation.navigateToAuth
 import com.fanimo.ecommerce.elenor.feature.cart.navigation.cartScreen
 import com.fanimo.ecommerce.elenor.feature.category.navigation.categoryScreen
-import com.fanimo.ecommerce.elenor.feature.category.navigation.navigateToCategory
 import com.fanimo.ecommerce.elenor.feature.home.navigation.homeRoute
 import com.fanimo.ecommerce.elenor.feature.home.navigation.homeScreen
 import com.fanimo.ecommerce.elenor.feature.home.navigation.navigateToHome
@@ -32,13 +33,19 @@ fun EleNavHost(
         startDestination = startDestination,
         modifier = modifier,
     ) {
-        homeScreen(onProductClick = navController::navigateToProduct,
+        homeScreen(
+            onNavigateToAuth = navController::navigateToAuth,
+            onProductClick = navController::navigateToProduct,
             onShowSnackbar = onShowSnackbar,
             )
         categoryScreen(onHomeClick = navController::navigateToHome)
         cartScreen(onHomeClick = navController::navigateToHome)
         accountScreen(onHomeClick = navController::navigateToHome)
         productScreen(onHomeClick = navController::navigateToHome )
+        authScreen (
+            onHomeClick = navController::navigateToHome,
+            popBack = { navController.popBackStack() }
+            )
 
     }
 }

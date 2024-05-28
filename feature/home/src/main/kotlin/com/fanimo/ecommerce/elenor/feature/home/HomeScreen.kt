@@ -2,6 +2,7 @@ package com.fanimo.ecommerce.elenor.feature.home
 
 import android.net.Uri
 import android.os.Build
+import android.util.Log
 import androidx.activity.compose.ReportDrawnWhen
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
@@ -47,6 +48,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -79,6 +81,7 @@ import com.fanimo.ecommerce.designsystem.component.scrollbar.DraggableScrollbar
 import com.fanimo.ecommerce.designsystem.component.scrollbar.rememberDraggableScroller
 import com.fanimo.ecommerce.designsystem.component.scrollbar.scrollbarState
 import com.fanimo.ecommerce.designsystem.icon.EleIcons
+import com.fanimo.ecommerce.designsystem.theme.LocalGradientColors
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus.Denied
 import com.google.accompanist.permissions.rememberPermissionState
@@ -86,6 +89,7 @@ import com.google.accompanist.permissions.rememberPermissionState
 
 @Composable
 internal fun HomeRoute(
+    onNavigateToAuth: () -> Unit,
     onTopicClick: (String) -> Unit,
     onShowSnackbar: suspend (String, String?) -> Boolean,
     modifier: Modifier = Modifier,
@@ -95,21 +99,42 @@ internal fun HomeRoute(
     val feedState by viewModel.feedState.collectAsStateWithLifecycle()
     val isSyncing by viewModel.isSyncing.collectAsStateWithLifecycle()
     val deepLinkedUserNewsResource by viewModel.deepLinkedNewsResource.collectAsStateWithLifecycle()
+//    val isLoggedIn by viewModel.isLoggedIn.collectAsStateWithLifecycle()
 
-    HomeScreen(
-        isSyncing = isSyncing,
-        onboardingUiState = onboardingUiState,
-        feedState = feedState,
-        onShowSnackbar = onShowSnackbar,
-        deepLinkedUserNewsResource = deepLinkedUserNewsResource,
-        onTopicCheckedChanged = viewModel::updateTopicSelection,
-        onDeepLinkOpened = viewModel::onDeepLinkOpened,
-        onTopicClick = onTopicClick,
-        saveFollowedTopics = viewModel::dismissOnboarding,
-        onNewsResourcesCheckedChanged = viewModel::updateNewsResourceSaved,
-        onNewsResourceViewed = { viewModel.setNewsResourceViewed(it, true) },
-        modifier = modifier,
-    )
+    val loginUiState by viewModel.loginUiState.collectAsState()
+    Log.d("My isLogin Home", loginUiState.toString())
+    when (loginUiState) {
+        LoginUiState.Loading -> {
+            LoadingView()
+        }
+        LoginUiState.NotLoggedIn -> {
+            LaunchedEffect(loginUiState) {
+                onNavigateToAuth()
+            }
+        }
+        LoginUiState.LoggedIn -> {
+            HomeScreen(
+                isSyncing = isSyncing,
+                onboardingUiState = onboardingUiState,
+                feedState = feedState,
+                onShowSnackbar = onShowSnackbar,
+                deepLinkedUserNewsResource = deepLinkedUserNewsResource,
+                onTopicCheckedChanged = viewModel::updateTopicSelection,
+                onDeepLinkOpened = viewModel::onDeepLinkOpened,
+                onTopicClick = onTopicClick,
+                saveFollowedTopics = viewModel::dismissOnboarding,
+                onNewsResourcesCheckedChanged = viewModel::updateNewsResourceSaved,
+                onNewsResourceViewed = { viewModel.setNewsResourceViewed(it, true) },
+                modifier = modifier,
+            )
+        }
+    }
+}
+
+@Composable
+fun LoadingView() {
+//    TODO("Not yet implemented")
+    Text(text = "LoadingView")
 }
 
 @Composable

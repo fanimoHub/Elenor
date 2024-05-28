@@ -40,7 +40,7 @@ class ElePreferencesDataSource @Inject constructor(
                 },
                 useDynamicColor = it.useDynamicColor,
                 shouldHideOnboarding = it.shouldHideOnboarding,
-                isLoggedIn = true
+                isLoggedIn = it.isLoggedIn,
             )
         }
 
@@ -177,6 +177,14 @@ class ElePreferencesDataSource @Inject constructor(
         userPreferences.updateData {
             it.copy {
                 this.shouldHideOnboarding = shouldHideOnboarding
+            }
+        }
+    }
+
+    suspend fun setIsLoggedIn(isLoggedIn: Boolean) {
+        userPreferences.updateData {
+            it.copy {
+                this.isLoggedIn = isLoggedIn
             }
         }
     }

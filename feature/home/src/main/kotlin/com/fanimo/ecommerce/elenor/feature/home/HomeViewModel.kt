@@ -11,6 +11,7 @@ import com.fanimo.ecommerce.core.data.repository.UserDataRepository
 import com.fanimo.ecommerce.core.data.repository.UserNewsResourceRepository
 import com.fanimo.ecommerce.core.data.util.SyncManager
 import com.fanimo.ecommerce.core.domain.GetFollowableTopicsUseCase
+import com.fanimo.ecommerce.core.model.data.UserData
 import com.fanimo.ecommerce.core.ui.NewsFeedUiState
 import com.fanimo.ecommerce.elenor.feature.home.navigation.LINKED_NEWS_RESOURCE_ID
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -37,6 +38,33 @@ class HomeViewModel @Inject constructor(
 
     private val shouldShowOnboarding: Flow<Boolean> =
         userDataRepository.userData.map { !it.shouldHideOnboarding }
+
+    private val isLoggedIn: Flow<Boolean> =
+        userDataRepository.userData.map { it.isLoggedIn }
+
+    val loginUiState: StateFlow<LoginUiState> = isLoggedIn.map { isLoggedIn ->
+
+                if (isLoggedIn) {
+                    LoginUiState.LoggedIn
+                } else {
+                    LoginUiState.NotLoggedIn
+                }
+            }
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5_000),
+                initialValue = LoginUiState.Loading,
+            )
+
+
+    val userUiState: StateFlow<UserUiState> = userDataRepository.userData.map {
+        UserUiState.Success(it)
+    }.stateIn(
+        scope = viewModelScope,
+        initialValue = UserUiState.Loading,
+        started = SharingStarted.WhileSubscribed(5_000)
+    )
+
 
     val deepLinkedNewsResource = savedStateHandle.getStateFlow<String?>(
         key = LINKED_NEWS_RESOURCE_ID,
@@ -111,6 +139,12 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    fun setIsLoggedIn(isLoggedIn: Boolean) {
+        viewModelScope.launch {
+            userDataRepository.setIsLoggedIn(isLoggedIn)
+        }
+    }
+
     fun onDeepLinkOpened(newsResourceId: String) {
         if (newsResourceId == deepLinkedNewsResource.value?.id) {
             savedStateHandle[LINKED_NEWS_RESOURCE_ID] = null
@@ -145,31 +179,3 @@ private fun AnalyticsHelper.logNewsDeepLinkOpen(newsResourceId: String) =
     )
 
 
-/*
-
-@HiltViewModel
-class HomeViewModel @Inject constructor(
-    private val savedStateHandle: SavedStateHandle,
-    //syncManager: SyncManager,
-    private val analyticsHelper: AnalyticsHelper,
-    private val userDataRepository: UserDataRepository,
-    userNewsResourceRepository: UserNewsResourceRepository,
-
-    ) : ViewModel() {
-
-    private val shouldShowOnboarding: Flow<Boolean> =
-        userDataRepository.userData.map { !it.shouldHideOnboarding }
-
-    val feedState: StateFlow<NewsFeedUiState> =
-        userNewsResourceRepository.observeAllForFollowedTopics()
-            .map(NewsFeedUiState::Success)
-            .stateIn(
-                scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(5_000),
-                initialValue = NewsFeedUiState.Loading,
-            )
-
-
-
-
-}*/

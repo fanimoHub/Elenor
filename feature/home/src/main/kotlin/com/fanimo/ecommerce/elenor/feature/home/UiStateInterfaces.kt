@@ -17,6 +17,7 @@
 package com.fanimo.ecommerce.elenor.feature.home
 
 import com.fanimo.ecommerce.core.model.data.FollowableTopic
+import com.fanimo.ecommerce.core.model.data.UserData
 
 /**
  * A sealed hierarchy describing the onboarding state for the for you screen.
@@ -48,4 +49,16 @@ sealed interface OnboardingUiState {
          */
         val isDismissable: Boolean get() = topics.any { it.isFollowed }
     }
+}
+
+sealed interface UserUiState {
+    data object Loading : UserUiState  // isLoggedIn = unknown
+    data object NotLoggedIn: UserUiState // isLoggedIn = false
+    data class Success(val userData: UserData) : UserUiState // isLoggedIn = true
+}
+
+sealed interface LoginUiState {
+    data object Loading : LoginUiState  // isLoggedIn = unknown
+    data object NotLoggedIn: LoginUiState // isLoggedIn = false
+    data object LoggedIn : LoginUiState // isLoggedIn = true
 }

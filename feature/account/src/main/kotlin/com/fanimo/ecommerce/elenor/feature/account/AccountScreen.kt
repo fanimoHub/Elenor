@@ -38,8 +38,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
-import com.fanimo.ecommerce.elenor.feature.account.auth.AuthRoute
-import com.fanimo.ecommerce.elenor.feature.account.auth.screens.LoginScreen
 
 @Composable
 internal fun AccountRoute(
@@ -47,8 +45,7 @@ internal fun AccountRoute(
     modifier: Modifier = Modifier,
 
     ) {
-//    LoginScreen(onPhoneNumberEntered = onHomeClick)
-    AuthRoute(onHomeClick)
+    AccountScreen()
 }
 
 

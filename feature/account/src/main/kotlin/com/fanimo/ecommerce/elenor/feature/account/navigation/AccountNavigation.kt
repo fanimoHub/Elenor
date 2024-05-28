@@ -28,8 +28,12 @@ fun NavController.navigateToAuth(navOptions: NavOptions? = null) {
 
 fun NavGraphBuilder.authScreen(
     onHomeClick: () -> Unit,
+    popBack: () -> Boolean,
 ) {
     composable(route = authRoute) {
-        AuthRoute(onHomeClick)
+        AuthRoute(
+            onHomeClick,
+            popBack,
+            )
     }
 }

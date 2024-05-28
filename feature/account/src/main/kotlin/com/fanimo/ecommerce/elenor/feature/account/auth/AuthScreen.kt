@@ -13,24 +13,35 @@ import com.fanimo.ecommerce.elenor.feature.account.auth.screens.OtpScreen
 @Composable
 internal fun AuthRoute(
     onHomeClick: () -> Unit,
+    popBack: () -> Boolean,
     modifier: Modifier = Modifier,
     viewModel: AuthViewModel = hiltViewModel(),
 
     ) {
     val phoneNumber by  remember {viewModel.phoneNumber}
-    var isPhoneNumberFilled by remember { mutableStateOf(false) }
+    var isPhoneNumberValid by remember { mutableStateOf(false) }
     val setPhoneNumber = viewModel::setPhoneNumber
 
-    if (!isPhoneNumberFilled) {
+    if (!isPhoneNumberValid) {
                 LoginScreen(
-                    onPhoneNumberEntered = { value ->
-                        setPhoneNumber(value)
-                        if(value.length==11){
-                            isPhoneNumberFilled = true
+                    onPhoneNumberEntered = { phoneNumberInput ->
+                        if(phoneNumberInput.length==11){
+                            setPhoneNumber(phoneNumberInput)
+                            isPhoneNumberValid = true
+                        }else {
+                            // Display an error message for invalid phone number length
                         }
-                    }
+                    },
+                    modifier = modifier,
                 )
     }else{
-        OtpScreen(phoneNumber.toString())
+                OtpScreen(
+                    onHomeClick,
+                    popBack,
+                    phoneNumber.toString(),
+                    loginUser = viewModel::loginUser,
+                    setOtpValue = viewModel::setOtpValue,
+                    modifier = modifier,
+                    )
     }
 }

@@ -14,10 +14,11 @@ fun NavController.navigateToHome(navOptions: NavOptions? = null) {
 }
 
 fun NavGraphBuilder.homeScreen(
+    onNavigateToAuth:()->Unit,
     onProductClick: (productId: String) -> Unit,
     onShowSnackbar: suspend (String, String?) -> Boolean,
 ) {
     composable(route = homeRoute) {
-        HomeRoute( onProductClick, onShowSnackbar )
+        HomeRoute( onNavigateToAuth, onProductClick, onShowSnackbar )
     }
 }
