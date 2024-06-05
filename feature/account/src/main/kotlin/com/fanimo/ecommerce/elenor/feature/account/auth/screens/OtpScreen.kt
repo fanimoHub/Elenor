@@ -57,7 +57,6 @@ import kotlinx.coroutines.delay
 @Composable
 fun OtpScreen(
     onHomeClick: () -> Unit,
-    popBack: () -> Boolean,
     phoneNumber: String,
     loginUser:()-> Unit,
     setOtpValue:(value:String)->Unit,
@@ -79,7 +78,8 @@ fun OtpScreen(
                 isOtpFilled = true
                 setOtpValue(otpValue)
                 loginUser()
-                popBack()
+                //Rahim
+//                popBack()
             }
         }
     )
