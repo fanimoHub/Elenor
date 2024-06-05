@@ -1,4 +1,3 @@
-
 package com.fanimo.ecommerce.core.data.repository
 
 import androidx.annotation.VisibleForTesting
@@ -7,7 +6,11 @@ import com.fanimo.ecommerce.core.datastore.ElePreferencesDataSource
 import com.fanimo.ecommerce.core.model.data.DarkThemeConfig
 import com.fanimo.ecommerce.core.model.data.ThemeBrand
 import com.fanimo.ecommerce.core.model.data.UserData
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class OfflineFirstUserDataRepository @Inject constructor(
@@ -58,7 +61,11 @@ class OfflineFirstUserDataRepository @Inject constructor(
         analyticsHelper.logOnboardingStateChanged(shouldHideOnboarding)
     }
 
+    val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
+
     override suspend fun setIsLoggedIn(isLoggedIn: Boolean) {
-        elePreferencesDataSource.setIsLoggedIn(isLoggedIn)
+        scope.launch {
+            elePreferencesDataSource.setIsLoggedIn(isLoggedIn)
+        }
     }
 }

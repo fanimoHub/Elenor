@@ -1,6 +1,7 @@
 package com.fanimo.ecommerce.elenor.feature.account.auth
 
 import android.util.Log
+import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -10,6 +11,9 @@ import androidx.navigation.NavController
 import com.fanimo.ecommerce.core.data.repository.UserDataRepository
 import com.fanimo.ecommerce.core.model.data.UserData
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
@@ -32,7 +36,7 @@ class AuthViewModel @Inject constructor(
 //        started = SharingStarted.WhileSubscribed(5_000)
 //    )
 private val isLoggedIn: Flow<Boolean> =
-    userDataRepository.userData.map { !it.isLoggedIn }
+    userDataRepository.userData.map { it.isLoggedIn }
 
     val loginUiState: StateFlow<LoginUiState> = isLoggedIn.map { isLoggedIn ->
 
