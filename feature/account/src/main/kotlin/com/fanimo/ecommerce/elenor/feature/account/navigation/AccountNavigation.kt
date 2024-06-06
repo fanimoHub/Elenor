@@ -34,6 +34,6 @@ fun NavGraphBuilder.authScreen(
         AuthRoute(
             onHomeClick,
             popBack,
-            )
+        )
     }
 }
