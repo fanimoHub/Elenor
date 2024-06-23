@@ -12,8 +12,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.material3.Badge
-import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -47,7 +45,6 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import com.fanimo.ecommerce.designsystem.component.EleBackground
 import com.fanimo.ecommerce.designsystem.component.EleGradientBackground
-
 import com.fanimo.ecommerce.designsystem.component.EleNavigationBar
 import com.fanimo.ecommerce.designsystem.component.EleNavigationBarItem
 import com.fanimo.ecommerce.designsystem.component.EleNavigationRail

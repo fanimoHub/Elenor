@@ -1,15 +1,11 @@
 package com.fanimo.ecommerce.elenor.feature.account.auth
 
 import android.util.Log
-import androidx.activity.compose.ReportDrawnWhen
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.NavController
 import com.fanimo.ecommerce.core.data.repository.UserDataRepository
-import com.fanimo.ecommerce.core.model.data.UserData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
