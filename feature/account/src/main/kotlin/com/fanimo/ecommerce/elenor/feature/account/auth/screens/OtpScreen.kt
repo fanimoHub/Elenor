@@ -43,23 +43,19 @@ import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import com.fanimo.ecommerce.elenor.feature.account.auth.components.OtpInputField
 import com.fanimo.ecommerce.elenor.feature.account.R
-import com.fanimo.ecommerce.elenor.feature.account.auth.AuthViewModel
+import com.fanimo.ecommerce.elenor.feature.account.auth.components.OtpInputField
 import com.fanimo.ecommerce.elenor.feature.account.auth.utils.OtpBroadcastReceiver
 import com.fanimo.ecommerce.elenor.feature.account.auth.utils.startSMSRetrieverClient
 import com.google.android.gms.auth.api.phone.SmsRetriever
-import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun OtpScreen(
     onHomeClick: () -> Unit,
     phoneNumber: String,
-    loginUser:()-> Unit,
-    setOtpValue:(value:String)->Unit,
+    loginUser: () -> Unit,
+    setOtpValue: (value: String) -> Unit,
     modifier: Modifier = Modifier,
     ) {
     val context = LocalContext.current
@@ -78,8 +74,6 @@ fun OtpScreen(
                 isOtpFilled = true
                 setOtpValue(otpValue)
                 loginUser()
-                //Rahim
-//                popBack()
             }
         }
     )
@@ -194,7 +188,7 @@ fun OtpScreen(
 @Composable
 fun OtpReceiverEffect(
     context: Context,
-    onOtpReceived: (String) -> Unit
+    onOtpReceived:  (String) -> Unit
     ) {
 //    val otpReceiver = remember { OTPReceiver() }
     startSMSRetrieverClient(context)

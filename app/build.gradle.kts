@@ -138,7 +138,7 @@ dependencies {
     testImplementation(projects.core.network)
     testImplementation(libs.androidx.navigation.testing)
     testImplementation(libs.accompanist.testharness)
-    testImplementation(libs.work.testing)
+    testImplementation(libs.androidx.work.testing)
     testImplementation(kotlin("test"))
     kspTest(libs.hilt.compiler)
 

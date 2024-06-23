@@ -1,6 +1,7 @@
 package com.fanimo.ecommerce.elenor.feature.account.auth
 
 import android.util.Log
+import androidx.activity.compose.ReportDrawnWhen
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -96,6 +97,8 @@ class AuthViewModel @Inject constructor(
 //            verifyOtp()
             userDataRepository.setIsLoggedIn(true)
             delay(100)
+
+
 
 
 

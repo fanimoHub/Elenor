@@ -23,7 +23,7 @@ import java.util.regex.Pattern
 fun OtpBroadcastReceiver(
     context: Context,
     systemAction: String,
-    onSystemEvent: (otpValue: String) -> Unit
+    onSystemEvent:  (otpValue: String) -> Unit
 ) {
 
     // Safely use the latest onSystemEvent lambda passed to the function

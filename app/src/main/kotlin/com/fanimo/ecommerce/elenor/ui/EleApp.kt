@@ -159,7 +159,7 @@ fun EleApp(appState: EleAppState) {
                                 navigationIconContentDescription = stringResource(
                                     id = settingsR.string.top_app_bar_navigation_icon_description,
                                 ),
-                                actionIcon = EleIcons.Settings,
+                                actionIcon = EleIcons.MoreVert,
                                 actionIconContentDescription = stringResource(
                                     id = settingsR.string.top_app_bar_action_icon_description,
                                 ),

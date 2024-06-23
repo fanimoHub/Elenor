@@ -4,6 +4,8 @@ package com.fanimo.ecommerce.elenor.feature.account
 import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.gestures.ScrollableState
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,6 +26,8 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateMapOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -55,7 +59,9 @@ fun AccountScreen() {
     val context = LocalContext.current
 //    val currentUser =
 
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(modifier = Modifier
+        .fillMaxSize()
+    ) {
         Spacer(modifier = Modifier.height(32.dp))
         Row(
             modifier = Modifier
@@ -116,6 +122,7 @@ fun AccountScreen() {
             thickness = 1.dp,
             color = Color(0xFFB3B3B3)
         )
+
         AccountNavItem(icon = R.drawable.orders, name = "Orders")
         AccountNavItem(icon = R.drawable.my_details, name = "My Details")
         AccountNavItem(icon = R.drawable.address, name = "Delivery Address")
@@ -124,6 +131,15 @@ fun AccountScreen() {
         AccountNavItem(icon = R.drawable.notifications, name = "Notifications")
         AccountNavItem(icon = R.drawable.help, name = "Help")
         AccountNavItem(icon = R.drawable.about, name = "About")
+        AccountNavItem(icon = R.drawable.orders, name = "Orders")
+        AccountNavItem(icon = R.drawable.my_details, name = "My Details")
+        AccountNavItem(icon = R.drawable.address, name = "Delivery Address")
+        AccountNavItem(icon = R.drawable.payment, name = "Payment methods")
+        AccountNavItem(icon = R.drawable.promo, name = "Promo Card")
+        AccountNavItem(icon = R.drawable.notifications, name = "Notifications")
+        AccountNavItem(icon = R.drawable.help, name = "Help")
+        AccountNavItem(icon = R.drawable.about, name = "About")
+
 
         Spacer(modifier = Modifier.height(26.dp))
 
